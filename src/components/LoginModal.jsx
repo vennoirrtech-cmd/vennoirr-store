@@ -32,11 +32,14 @@ export default function LoginModal({ onClose }) {
           try { window.recaptchaVerifier.clear(); } catch (_) {}
           window.recaptchaVerifier = null;
         }
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', {
+        const recaptchaOptions = {
           'size': 'invisible',
-          'sitekey': import.meta.env.VITE_RECAPTCHA_SITE_KEY,
           'callback': () => {}
-        });
+        };
+        if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+          recaptchaOptions.sitekey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+        }
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', recaptchaOptions);
       }
     }, 300);
 
