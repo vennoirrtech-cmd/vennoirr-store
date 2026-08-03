@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Environment Variables - NEVER commit these
+.env
+.env.local
+.env.production
+.env.development
+old_env.txt
+
 # Firebase Admin SDK - NEVER commit this
 serviceAccountKey.json
 
