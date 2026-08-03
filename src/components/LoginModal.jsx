@@ -25,26 +25,33 @@ export default function LoginModal({ onClose }) {
   }, [step, timeLeft]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const container = document.getElementById('login-recaptcha-container');
-      if (auth && container) {
+    if (!auth) return;
+    const container = document.getElementById('login-recaptcha-container');
+    if (!container) return;
+
+    // Clear any existing verifier
+    if (window.recaptchaVerifier) {
+      try { window.recaptchaVerifier.clear(); } catch (_) {}
+      window.recaptchaVerifier = null;
+    }
+
+    // Create fresh verifier
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', {
+      size: 'invisible',
+      callback: () => {},
+      'expired-callback': () => {
+        // Auto-reset when reCAPTCHA expires
         if (window.recaptchaVerifier) {
           try { window.recaptchaVerifier.clear(); } catch (_) {}
           window.recaptchaVerifier = null;
         }
-        const recaptchaOptions = {
-          'size': 'invisible',
-          'callback': () => {}
-        };
-        if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
-          recaptchaOptions.sitekey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-        }
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', recaptchaOptions);
       }
-    }, 300);
+    });
+
+    // Pre-render to avoid cold-start crash on first click
+    window.recaptchaVerifier.render().catch(() => {});
 
     return () => {
-      clearTimeout(timer);
       if (window.recaptchaVerifier) {
         try { window.recaptchaVerifier.clear(); } catch (_) {}
         window.recaptchaVerifier = null;
@@ -57,34 +64,48 @@ export default function LoginModal({ onClose }) {
     if (value.length <= 10) setMobile(value);
   };
 
+  // Helper to create a fresh reCAPTCHA verifier
+  const resetRecaptcha = () => {
+    if (window.recaptchaVerifier) {
+      try { window.recaptchaVerifier.clear(); } catch (_) {}
+      window.recaptchaVerifier = null;
+    }
+    const container = document.getElementById('login-recaptcha-container');
+    if (auth && container) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', {
+        size: 'invisible',
+        callback: () => {}
+      });
+      window.recaptchaVerifier.render().catch(() => {});
+    }
+  };
+
   const sendOtp = async () => {
     if (mobile.length !== 10) {
       setError("Enter a valid 10-digit mobile number.");
       return;
     }
-    
+
     setLoading(true);
     setError(null);
-
-    // // Bypass for test number (Disabled for production)
-    // if (mobile === '9999999999') {
-    //   window.isMockLogin = true;
-    //   setStep("OTP");
-    //   setTimeLeft(30);
-    //   setLoading(false);
-    //   return;
-    // }
 
     try {
       const phoneNumber = '+91' + mobile;
       const appVerifier = window.recaptchaVerifier;
+
+      if (!appVerifier) {
+        resetRecaptcha();
+        throw new Error("reCAPTCHA not ready. Please try again.");
+      }
+
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-      
       window.confirmationResult = confirmationResult;
       setStep("OTP");
       setTimeLeft(30);
     } catch (err) {
-      console.error(err);
+      console.error("sendOtp error:", err);
+      // Always reset reCAPTCHA on failure — critical for retry to work
+      resetRecaptcha();
       setError(err.message || "Failed to send OTP. Please try again.");
     } finally {
       setLoading(false);
@@ -109,25 +130,18 @@ export default function LoginModal({ onClose }) {
       setError("Enter a 6-digit verification code.");
       return;
     }
-    
+
     setLoading(true);
     setError(null);
     try {
-      let idToken;
-      
-      if (window.isMockLogin) {
-        idToken = `mock_phone_+91${mobile}`;
-      } else {
-        const confirmationResult = window.confirmationResult;
-        if (!confirmationResult) {
-          throw new Error("No confirmation result available.");
-        }
-        
-        const result = await confirmationResult.confirm(otpValue);
-        const user = result.user;
-        idToken = await user.getIdToken();
+      const confirmationResult = window.confirmationResult;
+      if (!confirmationResult) {
+        throw new Error("Session expired. Please request a new OTP.");
       }
-      
+
+      const result = await confirmationResult.confirm(otpValue);
+      const idToken = await result.user.getIdToken();
+
       const backendResponse = await loginWithFirebaseToken(idToken);
       if (backendResponse && backendResponse.success) {
         const { accessToken, user: backendUser } = backendResponse.data;
