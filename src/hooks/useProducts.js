@@ -23,12 +23,10 @@ export default function useProducts(params = {}) {
             setProducts(list);
           } else {
             // Backend returned no products — fall back to local mock data
-            console.warn('Backend returned no products. Falling back to local data.', body);
             setProducts(getLocalFallback(params));
           }
         }
       } catch (err) {
-        console.error('Product fetch error:', err?.response?.data || err.message);
         if (isMounted) setError(err);
         // Backend unavailable — use local fallback
         if (isMounted) {
