@@ -224,8 +224,6 @@ export default function LoginModal({ onClose }) {
                 {loading ? "Please wait..." : "Submit"}
               </button>
 
-              <div id="login-recaptcha-container"></div>
-
               <div className="terms">
                 By logging in, you're agreeing to our <br />
                 <a href="#">Privacy Policy</a> <a href="#">Terms of Service</a>
@@ -280,6 +278,8 @@ export default function LoginModal({ onClose }) {
             </>
           )}
 
+          {/* CRITICAL: Keep reCAPTCHA container outside conditional step render to avoid 'removed 0' error */}
+          <div id="login-recaptcha-container"></div>
         </div>
       </div>
     </div>
