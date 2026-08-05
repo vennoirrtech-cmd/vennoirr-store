@@ -1,11 +1,28 @@
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-
-const ORDERS = [
-  { id: "#VNR10012", date: "Apr 20, 2025", status: "Delivered", total: 2398, items: 2 },
-  { id: "#VNR10008", date: "Apr 11, 2025", status: "In Transit", total: 1399, items: 1 },
-];
+import { getMyOrders } from "../services/orderService";
+import { AuthContext } from "../context/AuthContext";
 
 export default function ProfilePage() {
+  const { user } = useContext(AuthContext);
+  const [orders, setOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await getMyOrders();
+        if (res?.success) {
+          setOrders(res.data || []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch orders", err);
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+    if (user) fetchOrders();
+  }, [user]);
   return (
     <main style={{ paddingTop: "calc(var(--ticker-height) + var(--navbar-height))", minHeight: "80vh" }}>
       <div className="container" style={{ paddingTop: 48, paddingBottom: 60, maxWidth: 900, margin: "0 auto" }}>
@@ -26,8 +43,8 @@ export default function ProfilePage() {
               <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--red)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontSize: 28, fontWeight: 700, marginBottom: 16 }}>
                 VR
               </div>
-              <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16, letterSpacing: 1, marginBottom: 4 }}>VENNORRI USER</p>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>vennorri@example.com</p>
+              <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16, letterSpacing: 1, marginBottom: 4 }}>{user?.name || "VENNOIRR USER"}</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{user?.email}</p>
             </div>
 
             <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -54,29 +71,35 @@ export default function ProfilePage() {
               Recent Orders
             </h2>
 
-            {ORDERS.map(order => (
-              <div key={order.id} style={{ border: "1px solid var(--grey-200)", marginBottom: 16, padding: 20 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-                  <div>
-                    <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, letterSpacing: 0.5 }}>{order.id}</p>
-                    <p style={{ fontSize: 12, color: "var(--grey-400)", marginTop: 4 }}>{order.date} · {order.items} item{order.items > 1 ? "s" : ""}</p>
+            {loadingOrders ? (
+              <p>Loading orders...</p>
+            ) : orders.length === 0 ? (
+              <p style={{ color: "var(--grey-500)", fontStyle: "italic" }}>You have no recent orders.</p>
+            ) : (
+              orders.map(order => (
+                <div key={order._id} style={{ border: "1px solid var(--grey-200)", marginBottom: 16, padding: 20 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, letterSpacing: 0.5 }}>#{order.orderNumber}</p>
+                      <p style={{ fontSize: 12, color: "var(--grey-400)", marginTop: 4 }}>{new Date(order.createdAt).toLocaleDateString()} · {order.items?.length || 0} items</p>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <span style={{
+                        display: "inline-block", padding: "4px 12px", fontSize: 11, fontWeight: 700, letterSpacing: 0.5, fontFamily: "var(--font-heading)",
+                        background: order.orderStatus === "Delivered" ? "#1a3d1a" : "#1a2a3d",
+                        color: order.orderStatus === "Delivered" ? "#4caf50" : "#64b5f6",
+                      }}>
+                        {order.orderStatus.toUpperCase()}
+                      </span>
+                      <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 15, marginTop: 8 }}>₹{order.totalAmount?.toLocaleString("en-IN") || order.totalAmount}</p>
+                    </div>
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <span style={{
-                      display: "inline-block", padding: "4px 12px", fontSize: 11, fontWeight: 700, letterSpacing: 0.5, fontFamily: "var(--font-heading)",
-                      background: order.status === "Delivered" ? "#1a3d1a" : "#1a2a3d",
-                      color: order.status === "Delivered" ? "#4caf50" : "#64b5f6",
-                    }}>
-                      {order.status.toUpperCase()}
-                    </span>
-                    <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 15, marginTop: 8 }}>₹{order.total.toLocaleString("en-IN")}</p>
-                  </div>
+                  <button style={{ fontSize: 12, color: "var(--grey-500)", letterSpacing: 0.5, textDecoration: "underline", background: "none", border: "none", cursor: "pointer" }}>
+                    View Order Details →
+                  </button>
                 </div>
-                <button style={{ fontSize: 12, color: "var(--grey-500)", letterSpacing: 0.5, textDecoration: "underline" }}>
-                  View Order Details →
-                </button>
-              </div>
-            ))}
+              ))
+            )}
 
             <div style={{ marginTop: 32, padding: 24, background: "var(--grey-100)" }}>
               <h3 style={{ fontFamily: "var(--font-heading)", fontSize: 13, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 16 }}>Account Settings</h3>

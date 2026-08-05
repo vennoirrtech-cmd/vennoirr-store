@@ -15,3 +15,8 @@ export const verifyPayment = async (paymentData) => {
   const res = await api.post('/api/v1/payments/verify', paymentData);
   return res.data; 
 };
+
+export const getMyOrders = async () => {
+  const res = await api.get('/api/v1/orders/my-orders');
+  return res.data;
+};
