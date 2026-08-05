@@ -11,7 +11,7 @@ export default function ProductSidebar({ product, close }) {
   const sizes = product.sizes || ["S", "M", "L", "XL"];
 
   const handleAdd = () => {
-    const selectedSize = size || sizes[1] || sizes[0];
+    const selectedSize = size || sizes[0] || "M";
     addToCart({ ...product, size: selectedSize, qty: 1 });
     close();
   };

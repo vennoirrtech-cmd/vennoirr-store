@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { addToCartAPI, getCart, updateCartItemAPI, removeCartItemAPI } from "../services/cartService";
+import { toast } from "react-hot-toast";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext();
@@ -88,9 +89,15 @@ export function CartProvider({ children }) {
         });
         // Fetch to ensure correct DB IDs
         fetchApiCart();
+        toast.success("Added to cart");
       } catch(err) {
         console.error("Failed to add to API cart", err);
+        toast.error(err?.response?.data?.message || "Failed to add to cart");
+        // Revert optimistic update by pulling true state from server
+        fetchApiCart();
       }
+    } else {
+      toast.success("Added to cart");
     }
   };
 
@@ -101,9 +108,14 @@ export function CartProvider({ children }) {
     if (localStorage.getItem('jwt_token') && itemToRemove.cartItemId) {
       try {
         await removeCartItemAPI(itemToRemove.cartItemId);
+        toast.success("Item removed");
       } catch(err) {
         console.error("Failed to remove API cart item", err);
+        toast.error("Failed to remove item");
+        fetchApiCart();
       }
+    } else {
+      toast.success("Item removed");
     }
   };
 
@@ -122,6 +134,8 @@ export function CartProvider({ children }) {
         await updateCartItemAPI(itemToUpdate.cartItemId, newQty);
       } catch(err) {
         console.error("Failed to update API cart item", err);
+        toast.error(err?.response?.data?.message || "Failed to update quantity");
+        fetchApiCart();
       }
     }
   };

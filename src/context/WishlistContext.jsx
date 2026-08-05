@@ -19,20 +19,20 @@ export function WishlistProvider({ children }) {
 
   const toggleWishlist = (product) => {
     setWishlist((prev) => {
-      const exists = prev.some((item) => item.id === product.id);
+      const exists = prev.some((item) => (item._id || item.id) === (product._id || product.id));
       if (exists) {
-        return prev.filter((item) => item.id !== product.id);
+        return prev.filter((item) => (item._id || item.id) !== (product._id || product.id));
       }
       return [...prev, product];
     });
   };
 
   const removeFromWishlist = (productId) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== productId));
+    setWishlist((prev) => prev.filter((item) => (item._id || item.id) !== productId));
   };
 
   const isInWishlist = (productId) => {
-    return wishlist.some((item) => item.id === productId);
+    return wishlist.some((item) => (item._id || item.id) === productId);
   };
 
   return (

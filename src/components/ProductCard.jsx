@@ -21,7 +21,7 @@ export default function ProductCard({ product, openSidebar }) {
     } else {
       addToCart({
         ...product,
-        size: product.sizes?.[1] || "M",
+        size: product.sizes?.[0] || "M",
         qty: 1,
       });
     }

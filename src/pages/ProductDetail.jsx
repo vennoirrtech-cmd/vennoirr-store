@@ -39,7 +39,7 @@ export default function ProductDetail() {
     .slice(0, 4);
 
   const handleAddToCart = () => {
-    const size = selectedSize || sizes[1] || sizes[0];
+    const size = selectedSize || sizes[0] || "M";
     addToCart({ ...product, size, qty });
   };
 

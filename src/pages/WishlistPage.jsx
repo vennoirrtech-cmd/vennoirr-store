@@ -10,8 +10,8 @@ export default function WishlistPage() {
   const { addToCart } = useContext(CartContext);
 
   const handleMoveToCart = (product) => {
-    addToCart({ ...product, size: product.sizes?.[1] || "M", qty: 1 });
-    removeFromWishlist(product.id);
+    addToCart({ ...product, size: product.sizes?.[0] || "M", qty: 1 });
+    removeFromWishlist(product._id || product.id);
   };
 
   return (
@@ -26,13 +26,13 @@ export default function WishlistPage() {
       ) : (
         <div className="product-grid" style={{ padding: 0 }}>
           {wishlist.map((product) => (
-            <div key={product.id} className="product-card" style={{ pointerEvents: "auto" }}>
+            <div key={product._id || product.id} className="product-card" style={{ pointerEvents: "auto" }}>
               {product.isVideo ? (
                 <div className="card-image">
                   <img src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 600)} alt={product.title} className="primary-img" loading="lazy" />
                 </div>
               ) : (
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/product/${product._id || product.id}`}>
                   <div className="card-image">
                     <img src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 600)} alt={product.title} className="primary-img" loading="lazy" />
                     {product.discount > 0 && (
@@ -76,7 +76,7 @@ export default function WishlistPage() {
                         <FiShoppingBag size={14} /> MOVE TO CART
                       </button>
                       <button
-                        onClick={() => removeFromWishlist(product.id)}
+                        onClick={() => removeFromWishlist(product._id || product.id)}
                         style={{
                           padding: "10px 14px",
                           border: "1px solid var(--grey-300)",
@@ -91,7 +91,7 @@ export default function WishlistPage() {
                     </>
                   ) : (
                     <button
-                      onClick={() => removeFromWishlist(product.id)}
+                      onClick={() => removeFromWishlist(product._id || product.id)}
                       style={{
                         flex: 1,
                         padding: "10px",
