@@ -224,6 +224,9 @@ export default function AdminPage() {
     if (!form.sku.trim()) e.sku = "SKU is required";
     if (!form.category) e.category = "Category is required";
     if (!form.description.trim()) e.description = "Description is required";
+    if (form.stockQuantity === "" || isNaN(form.stockQuantity) || +form.stockQuantity < 0) e.stockQuantity = "Valid stock required";
+    if (form.gst === "" || isNaN(form.gst) || +form.gst < 0) e.gst = "Valid GST required";
+    if (!form.sizes || form.sizes.length === 0) e.sizes = "At least one size is required";
     if (!imageFiles.length) e.images = "At least one image is required";
     return e;
   };
@@ -243,6 +246,7 @@ export default function AdminPage() {
     try {
       // Step 1 — Create product (JSON, no images)
       const parsedStock = form.stockQuantity === "" ? 10 : Number(form.stockQuantity);
+      const parsedGst = form.gst === "" ? 5 : Number(form.gst);
       
       const productPayload = {
         name: form.name.trim(),
@@ -259,7 +263,7 @@ export default function AdminPage() {
         isBestSeller: form.isBestSeller,
         isTrending: form.isTrending,
         brand: form.brand || "VENNOIRR",
-        gst: +form.gst,
+        gst: isNaN(parsedGst) ? 5 : parsedGst,
       };
 
       const createRes = await createProduct(productPayload);
@@ -527,7 +531,9 @@ export default function AdminPage() {
                 onChange={handleChange}
                 min="0"
                 placeholder="10"
+                className={fieldErrors.stockQuantity ? "has-error" : ""}
               />
+              {fieldErrors.stockQuantity && <span className="field-error">{fieldErrors.stockQuantity}</span>}
             </div>
 
             {/* Sizes */}
@@ -545,6 +551,7 @@ export default function AdminPage() {
                   </button>
                 ))}
               </div>
+              {fieldErrors.sizes && <span className="field-error">{fieldErrors.sizes}</span>}
             </div>
 
             {/* Flags */}
