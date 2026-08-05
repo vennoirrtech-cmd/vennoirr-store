@@ -242,6 +242,8 @@ export default function AdminPage() {
 
     try {
       // Step 1 — Create product (JSON, no images)
+      const parsedStock = form.stockQuantity === "" ? 10 : Number(form.stockQuantity);
+      
       const productPayload = {
         name: form.name.trim(),
         description: form.description.trim(),
@@ -251,7 +253,7 @@ export default function AdminPage() {
         gender: form.gender,
         category: form.category,
         subCategory: form.subCategory || undefined,
-        stockQuantity: +form.stockQuantity,
+        stockQuantity: isNaN(parsedStock) ? 10 : parsedStock,
         sizes: form.sizes,
         isNewArrival: form.isNewArrival,
         isBestSeller: form.isBestSeller,
