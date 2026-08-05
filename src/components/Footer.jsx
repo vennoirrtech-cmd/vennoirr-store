@@ -10,47 +10,20 @@ export default function Footer() {
           <h1>VENNOIRR</h1>
 
           <div className="footer-socials">
-            <a href="#" aria-label="Instagram"><FiInstagram /></a>
+            <a href="https://www.instagram.com/vennoirrr?igsh=aDRtcGtkMWZoaHh1" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FiInstagram /></a>
             <a href="#" aria-label="Twitter"><FiTwitter /></a>
             <a href="#" aria-label="Facebook"><FiFacebook /></a>
             <a href="#" aria-label="YouTube"><FiYoutube /></a>
           </div>
-
-          <div className="footer-newsletter">
-            <input type="email" placeholder="Enter your email for updates" />
-            <button>SUBSCRIBE</button>
-          </div>
         </div>
-
-        {/* SHOP */}
-        <div className="footer-column">
-          <h4>SHOP</h4>
-          <Link to="/men">Men</Link>
-          <Link to="/women">Women</Link>
-          <Link to="/men/funky">Funky Collection</Link>
-          <Link to="/men/premium">Premium Edit</Link>
-          <p>New Arrivals</p>
-          <p>Best Sellers</p>
-        </div>
-
-        {/* TRENDING */}
-        <div className="footer-column">
-          <h4>TRENDING</h4>
-          <p>Oversized T-shirts</p>
-          <p>Track Pants</p>
-          <p>Hoodies</p>
-          <p>Cargo Joggers</p>
-          <p>Jackets</p>
-        </div>
-
         {/* HELP */}
         <div className="footer-column">
           <h4>HELP</h4>
-          <p>Terms & Conditions</p>
-          <p>Privacy Policy</p>
-          <p>Returns & Exchange</p>
-          <p>FAQs</p>
-          <p>Contact Us</p>
+          <Link to="/terms" style={{ color: 'inherit', textDecoration: 'none', display: 'block' }}>Terms & Conditions</Link>
+          <Link to="/privacy" style={{ color: 'inherit', textDecoration: 'none', display: 'block', marginTop: '10px' }}>Privacy Policy</Link>
+          <Link to="/returns" style={{ color: 'inherit', textDecoration: 'none', display: 'block', marginTop: '10px' }}>Returns & Exchange</Link>
+          <Link to="/faq" style={{ color: 'inherit', textDecoration: 'none', display: 'block', marginTop: '10px' }}>FAQs</Link>
+          <Link to="/contact" style={{ color: 'inherit', textDecoration: 'none', display: 'block', marginTop: '10px' }}>Contact Us</Link>
         </div>
       </div>
 

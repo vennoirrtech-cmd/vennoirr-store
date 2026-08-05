@@ -18,6 +18,7 @@ export default function CheckoutPage() {
     name: "", mobile: "", houseNo: "", area: "", city: "Nagpur", state: "Maharashtra", pincode: ""
   });
   const [isProcessing, setIsProcessing] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -124,6 +125,7 @@ export default function CheckoutPage() {
         },
         prefill: {
           name: user?.name || "Customer",
+          email: user?.email || "customer@vennoirr.com",
           contact: user?.mobile || "",
         },
         theme: {
@@ -208,16 +210,66 @@ export default function CheckoutPage() {
             <span>₹{total}</span>
           </div>
 
+          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.9rem', color: '#555' }}>
+            <input 
+              type="checkbox" 
+              id="terms_agree" 
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              style={{ marginTop: '4px', cursor: 'pointer' }}
+            />
+            <label htmlFor="terms_agree" style={{ cursor: 'pointer' }}>
+              I agree to the <a href="/terms" target="_blank" style={{ color: '#000', textDecoration: 'underline' }}>Terms & Conditions</a>, <a href="/privacy" target="_blank" style={{ color: '#000', textDecoration: 'underline' }}>Privacy Policy</a>, and <a href="/returns" target="_blank" style={{ color: '#000', textDecoration: 'underline' }}>Return Policy</a>.
+            </label>
+          </div>
+
           <button 
             className="checkout-btn shop-btn" 
-            style={{ width: '100%', marginTop: '30px', padding: '15px' }} 
+            style={{ width: '100%', marginTop: '20px', padding: '15px', background: '#000', color: '#fff', fontWeight: 'bold', fontSize: '1rem', border: 'none', cursor: 'pointer' }} 
             onClick={handleCheckout}
-            disabled={isProcessing || addresses.length === 0 && !selectedAddressId}
+            disabled={isProcessing || (addresses.length === 0 && !selectedAddressId) || !agreedToTerms}
           >
-            {isProcessing ? "PROCESSING..." : "PAY SECURELY"}
+            {isProcessing ? "PROCESSING..." : "PROCEED TO PAYMENT"}
           </button>
         </div>
       </div>
+      <style>{`
+        .checkout-layout {
+          display: flex;
+          gap: 30px;
+          flex-wrap: wrap;
+        }
+        .checkout-address-section, .checkout-summary-section {
+          flex: 1 1 100%;
+        }
+        @media (min-width: 768px) {
+          .checkout-address-section { flex: 1 1 60%; }
+          .checkout-summary-section { flex: 1 1 30%; }
+        }
+        .checkout-address-form-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 15px;
+          margin-top: 20px;
+        }
+        @media (min-width: 600px) {
+          .checkout-address-form-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+        .checkout-address-form-grid input {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+        .checkout-btn { transition: opacity 0.3s }
+        .checkout-btn:hover:not(:disabled) { opacity: 0.9 }
+        .checkout-btn:disabled {
+          background: #555 !important;
+          cursor: not-allowed;
+        }
+      `}</style>
     </div>
   );
 }

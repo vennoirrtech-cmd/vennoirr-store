@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useContext } from "react";
+import { Helmet } from "react-helmet-async";
 import { FiHeart, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import useProducts from "../hooks/useProducts";
 import { CartContext } from "../context/CartContext";
@@ -42,8 +43,42 @@ export default function ProductDetail() {
     addToCart({ ...product, size, qty });
   };
 
+  const categoryName = product.category?.name || product.category || "Fashion";
+  const productName = product.title || product.name;
+  const productImage = optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 1000);
+
   return (
     <div style={{ paddingTop: "calc(var(--navbar-height) + 20px)" }}>
+      {/* Dynamic SEO Tags & Schema Markup */}
+      <Helmet>
+        <title>{productName} | Premium Streetwear | Vennoirr</title>
+        <meta name="description" content={`Buy ${productName} at Vennoirr. ${product.description ? product.description.substring(0, 100) : "Premium quality streetwear crafted with the finest materials"}. Free Shipping in India!`} />
+        <meta property="og:title" content={`${productName} | Vennoirr`} />
+        <meta property="og:image" content={productImage} />
+        <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": productName,
+            "image": productImage,
+            "description": product.description || "Premium streetwear.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Vennoirr"
+            },
+            "offers": {
+              "@type": "Offer",
+              "url": window.location.href,
+              "priceCurrency": "INR",
+              "price": product.price,
+              "availability": "https://schema.org/InStock",
+              "itemCondition": "https://schema.org/NewCondition"
+            }
+          })}
+        </script>
+      </Helmet>
+
       {/* BREADCRUMB */}
       <div style={{
         padding: "12px var(--container-padding)",

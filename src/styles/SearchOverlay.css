@@ -30,6 +30,11 @@
   cursor: pointer;
   z-index: 10000;
   color: #000;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .overlay-close:hover {
@@ -69,8 +74,12 @@
   padding: 8px 14px;
   border-radius: 20px;
   margin-right: 12px;
+  margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .search-chips span:hover {

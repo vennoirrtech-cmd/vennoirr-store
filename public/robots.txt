@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /account
+Disallow: /checkout
+
+Sitemap: https://vennoirr.com/sitemap.xml

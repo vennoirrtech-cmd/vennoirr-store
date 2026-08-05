@@ -10,7 +10,9 @@ export default function ProductGrid({ category, subcategory }) {
 
   if (category) {
     filtered = filtered.filter(
-      (p) => p.gender?.toLowerCase() === category.toLowerCase()
+      (p) => 
+        p.gender?.toLowerCase() === category.toLowerCase() || 
+        p.gender?.toLowerCase() === 'unisex'
     );
   }
 

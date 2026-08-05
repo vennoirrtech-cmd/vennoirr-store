@@ -39,6 +39,11 @@
   cursor: pointer;
   z-index: 20;
   transition: color 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-close:hover {
@@ -163,6 +168,9 @@
   margin-left: 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .qr-close:hover {

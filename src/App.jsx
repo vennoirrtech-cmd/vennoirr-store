@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import { Toaster } from "react-hot-toast";
 
 import AnnouncementBar from "./components/AnnouncementBar";
@@ -9,24 +9,31 @@ import WhatsAppPopup from "./components/WhatsAppPopup";
 import DeliveryPopup from "./components/DeliveryPopup";
 import ScrollToTop from "./components/ScrollToTop";
 
-import Home from "./pages/Home";
-import CartPage from "./pages/CartPage";
-import WishlistPage from "./pages/WishlistPage";
-import ProductDetail from "./pages/ProductDetail";
-import Login from "./pages/Login";
-import Account from "./pages/Account";
-import CheckoutPage from "./pages/CheckoutPage";
-import AdminPage from "./pages/AdminPage";
-
-import Men from "./pages/Men";
-import MenFunky from "./pages/MenFunky";
-import MenPremium from "./pages/MenPremium";
-
-import Women from "./pages/Women";
-import WomenFunky from "./pages/WomenFunky";
-import WomenPremium from "./pages/WomenPremium";
-
 import { AdminProductProvider } from "./context/AdminProductContext";
+
+// Lazy load pages for Code Splitting (SEO & Speed Trick)
+const Home = lazy(() => import("./pages/Home"));
+const CartPage = lazy(() => import("./pages/CartPage"));
+const WishlistPage = lazy(() => import("./pages/WishlistPage"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const Login = lazy(() => import("./pages/Login"));
+const Account = lazy(() => import("./pages/Account"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+
+const Men = lazy(() => import("./pages/Men"));
+const MenFunky = lazy(() => import("./pages/MenFunky"));
+const MenPremium = lazy(() => import("./pages/MenPremium"));
+
+const Women = lazy(() => import("./pages/Women"));
+const WomenFunky = lazy(() => import("./pages/WomenFunky"));
+const WomenPremium = lazy(() => import("./pages/WomenPremium"));
+
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Returns = lazy(() => import("./pages/Returns"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 function AppLayout() {
   const [showAnnouncement, setShowAnnouncement] = useState(true);
@@ -47,28 +54,35 @@ function AppLayout() {
         </>
       )}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/contact" element={<Contact />} />
 
-        <Route path="/men">
-          <Route index element={<Men />} />
-          <Route path="funky" element={<MenFunky />} />
-          <Route path="premium" element={<MenPremium />} />
-        </Route>
+          <Route path="/men">
+            <Route index element={<Men />} />
+            <Route path="funky" element={<MenFunky />} />
+            <Route path="premium" element={<MenPremium />} />
+          </Route>
 
-        <Route path="/women">
-          <Route index element={<Women />} />
-          <Route path="funky" element={<WomenFunky />} />
-          <Route path="premium" element={<WomenPremium />} />
-        </Route>
-      </Routes>
+          <Route path="/women">
+            <Route index element={<Women />} />
+            <Route path="funky" element={<WomenFunky />} />
+            <Route path="premium" element={<WomenPremium />} />
+          </Route>
+        </Routes>
+      </Suspense>
 
       {!isAdmin && <Footer />}
     </div>
