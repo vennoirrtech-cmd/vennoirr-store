@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth } from '../firebase/firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { toast } from 'react-hot-toast';
 
 export const AuthContext = createContext();
 
@@ -29,7 +30,17 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    const handleForceLogout = () => {
+      logoutAuth();
+      toast.error('Session expired. Please log in again.');
+    };
+
+    window.addEventListener('auth_logout_required', handleForceLogout);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener('auth_logout_required', handleForceLogout);
+    };
   }, []);
 
   const loginAuth = (token, userData) => {
