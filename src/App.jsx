@@ -18,6 +18,7 @@ const WishlistPage = lazy(() => import("./pages/WishlistPage"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Login = lazy(() => import("./pages/Login"));
 const Account = lazy(() => import("./pages/Account"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 
@@ -62,6 +63,7 @@ function AppLayout() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/terms" element={<Terms />} />
