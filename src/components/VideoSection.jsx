@@ -15,7 +15,7 @@ const videoCards = [
     id: 2,
     poster: "/images/video_thumb_2.png",
     handle: "vennoirr",
-    caption: '"Mehnat Bonkers honi chahiye…" meet the man who makes it happen.',
+    caption: '"Mehnat Zabardast honi chahiye…" meet the man who makes it happen.',
     hasShop: true,
   },
   {

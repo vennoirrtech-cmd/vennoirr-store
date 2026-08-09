@@ -13,7 +13,7 @@ export default function Men() {
           { label: "Men", path: "/men" }
         ]}
         image={menBannerImage}
-        description="Stay cool and confident with Bonkers Corner's menswear collection - your go-to for easy layering and everyday streetwear comfort. Elevate your wardrobe with premium fabrics and modern drops."
+        description="Stay cool and confident with Vennoirr's menswear collection - your go-to for easy layering and everyday streetwear comfort. Elevate your wardrobe with premium fabrics and modern drops."
         count={89}
       />
       <ProductGrid category="men" />

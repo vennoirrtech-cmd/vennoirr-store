@@ -30,7 +30,7 @@ export default function Women() {
           { label: "Women", path: "/women" }
         ]}
         image={womenBannerImage}
-        description="Stay cool and confident with Bonkers Corner's womenswear collection - your go-to for easy layering and everyday streetwear comfort."
+        description="Stay cool and confident with Vennoirr's womenswear collection - your go-to for easy layering and everyday streetwear comfort."
         count={54}
       />
       <ProductGrid category="women" />
