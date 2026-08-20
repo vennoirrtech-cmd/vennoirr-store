@@ -9,7 +9,7 @@ export default function LoginModal({ onClose }) {
   const [mobile, setMobile] = useState("");
   const [step, setStep] = useState("MOBILE"); // MOBILE | OTP
   const [otp, setOtp] = useState(["", "", "", "", "", ""]); // 6 digits for Firebase
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showQr, setShowQr] = useState(true);
@@ -101,7 +101,7 @@ export default function LoginModal({ onClose }) {
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       window.confirmationResult = confirmationResult;
       setStep("OTP");
-      setTimeLeft(30);
+      setTimeLeft(60);
     } catch (err) {
       console.error("sendOtp error:", err);
       // Always reset reCAPTCHA on failure — critical for retry to work
@@ -152,7 +152,27 @@ export default function LoginModal({ onClose }) {
       }
     } catch (err) {
       console.error(err);
-      setError("Failed to Authenticate. Incorrect OTP or Server Error.");
+      const code = err?.code || '';
+      const msg = err?.message || '';
+
+      if (
+        code === 'auth/session-expired' ||
+        code === 'auth/code-expired' ||
+        msg.includes('SESSION_EXPIRED') ||
+        msg.includes('session expired') ||
+        msg.includes('expired')
+      ) {
+        // Firebase session timed out — user must re-request OTP
+        setError('OTP expired. Please click "Resend OTP" to get a new code.');
+        setTimeLeft(0); // immediately show Resend link
+      } else if (code === 'auth/invalid-verification-code' || msg.includes('invalid')) {
+        setError('Incorrect OTP. Please check and try again.');
+      } else if (!err?.response && msg.includes('Network')) {
+        // Backend CORS / cold-start / network error — not an OTP error
+        setError('Server is warming up. Please wait a moment and try again.');
+      } else {
+        setError('Failed to verify OTP. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
