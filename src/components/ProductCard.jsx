@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FiHeart } from "react-icons/fi";
+import { FiBookmark } from "react-icons/fi";
 import { CartContext } from "../context/CartContext";
 import { WishlistContext } from "../context/WishlistContext";
-import { optimizeImage } from "../utils/imageOptimization";
+import ResponsiveImage from "./ResponsiveImage";
+import { FadeIn } from "./animations/FadeIn";
 
 export default function ProductCard({ product, openSidebar }) {
   const { addToCart } = useContext(CartContext);
@@ -19,9 +20,29 @@ export default function ProductCard({ product, openSidebar }) {
     if (openSidebar) {
       openSidebar(product);
     } else {
+      const hasVariants = product.variants && product.variants.length > 0;
+      let defaultColor = "Black";
+      let defaultSize = "M";
+      let matchedVariant = null;
+      let computedPrice = product.price;
+
+      if (hasVariants) {
+        defaultColor = product.variants[0].color || "Black";
+        defaultSize = product.variants[0].size || "M";
+        matchedVariant = product.variants[0];
+        if (matchedVariant.priceDiff) {
+          computedPrice += matchedVariant.priceDiff;
+        }
+      } else {
+        defaultSize = product.sizes?.[0] || "M";
+      }
+
       addToCart({
         ...product,
-        size: product.sizes?.[0] || "M",
+        price: computedPrice,
+        size: defaultSize,
+        color: defaultColor,
+        variant: matchedVariant,
         qty: 1,
       });
     }
@@ -34,69 +55,68 @@ export default function ProductCard({ product, openSidebar }) {
   };
 
   return (
-    <Link to={`/product/${productId}`} className="product-card">
-      <div className="card-image">
-        <img
-          src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 600)}
-          alt={product.title || product.name}
-          className="primary-img"
-          loading="lazy"
-          decoding="async"
-        />
-
-        {(product.hoverImage || product.images?.[1]?.url || product.images?.[1]) && (
-          <img
-            src={optimizeImage(product.hoverImage || product.images?.[1]?.url || product.images?.[1] || "", 600)}
-            alt={product.title || product.name}
-            className="hover-img"
-            loading="lazy"
-            decoding="async"
-          />
-        )}
-
-        {(product.discount > 0 || product.discountPercent > 0) && (
-          <span className="discount-badge">
-            SAVE {product.discount || product.discountPercent}%
-          </span>
-        )}
-
-        {/* Wishlist Button */}
-<button
-  className={`wishlist-btn ${isWishlisted ? "liked" : ""}`}
-  onClick={handleWishlist}
-  aria-label="Wishlist"
->
-  <FiHeart />
-</button>
-
-        {/* Quick Add */}
+    <FadeIn yOffset={30}>
+      <Link to={`/product/${productId}`} className="product-card">
         <button
-          className="quick-add"
-          onClick={handleQuickAdd}
+          className={`wishlist-btn ${isWishlisted ? "liked" : ""}`}
+          onClick={handleWishlist}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
-          ADD TO CART
+          <FiBookmark className="wishlist-icon" />
         </button>
-      </div>
 
-      <div className="card-info">
-        <h4>{product.title || product.name}</h4>
+        <div className="card-image">
+          <ResponsiveImage
+            src={product.image || product.images?.[0]?.url || product.images?.[0] || ""}
+            alt={product.title || product.name}
+            className="primary-img"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          />
 
-        <div className="price-row">
-          <span className="sale-price">₹{product.price}</span>
-
-          {(product.originalPrice || product.mrp) && (
-            <span className="original-price">
-              ₹{product.originalPrice || product.mrp}
-            </span>
+          {(product.hoverImage || product.images?.[1]?.url || product.images?.[1]) && (
+            <ResponsiveImage
+              src={product.hoverImage || product.images?.[1]?.url || product.images?.[1] || ""}
+              alt={product.title || product.name}
+              className="hover-img"
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            />
           )}
 
           {(product.discount > 0 || product.discountPercent > 0) && (
-            <span className="discount-text">
-              ({product.discount || product.discountPercent}% OFF)
+            <span className="discount-badge">
+              SAVE {product.discount || product.discountPercent}%
             </span>
           )}
+
+          {/* Quick Add */}
+          <button
+            className="quick-add"
+            onClick={handleQuickAdd}
+          >
+            ADD TO CART
+          </button>
         </div>
-      </div>
-    </Link>
+
+        <div className="card-info">
+          <h4>{product.title || product.name}</h4>
+
+          <div className="price-row">
+            <span className="sale-price">₹{product.price}</span>
+
+            {(product.originalPrice || product.mrp) && (
+              <span className="original-price">
+                ₹{product.originalPrice || product.mrp}
+              </span>
+            )}
+
+            {(product.discount > 0 || product.discountPercent > 0) && (
+              <span className="discount-text">
+                ({product.discount || product.discountPercent}% OFF)
+              </span>
+            )}
+          </div>
+        </div>
+      </Link>
+    </FadeIn>
   );
 }

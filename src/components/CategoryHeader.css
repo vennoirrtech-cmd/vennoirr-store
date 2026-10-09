@@ -105,51 +105,50 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px var(--container-padding);
-  border-top: 1px solid var(--grey-200);
-  border-bottom: 1px solid var(--grey-200);
-  background: var(--white);
+  padding: 16px var(--gutter-desktop);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
   flex-wrap: wrap;
   gap: 12px;
+  position: sticky;
+  top: 72px; /* sticky below header */
+  z-index: var(--z-sticky);
 }
 
 .filter-left, .filter-right {
   display: flex;
   align-items: center;
+  gap: 24px;
 }
 
 .filter-sort-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--text-primary);
-  text-transform: uppercase;
-}
-
-.filter-right {
-  gap: 24px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  background: transparent;
+  border: none;
 }
 
 .featured-dropdown {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
   cursor: pointer;
 }
 
 .product-count {
   font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 400;
   color: var(--text-secondary);
-  letter-spacing: 1px;
 }

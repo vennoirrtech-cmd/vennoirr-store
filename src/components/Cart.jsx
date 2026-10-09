@@ -12,7 +12,7 @@ export default function Cart() {
         <div key={i} className="cart-row">
           <img src={item.image || item.images?.[0]?.url || item.images?.[0] || ""} />
           <p>{item.title} ({item.size})</p>
-          <button onClick={() => removeFromCart(i)}>Remove</button>
+          <button className="cd-remove" onClick={() => removeFromCart(i)}>Remove</button>
         </div>
       ))}
     </div>

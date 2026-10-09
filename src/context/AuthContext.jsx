@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     window.dispatchEvent(new Event("auth_login"));
   };
 
-  const logoutAuth = async () => {
+  async function logoutAuth() {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('user_profile');
     setJwt(null);
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
     } catch(err) {
         console.error("Error signing out of firebase", err);
     }
-  };
+  }
 
   return (
     <AuthContext.Provider value={{ user, jwt, loginAuth, logoutAuth, loading }}>

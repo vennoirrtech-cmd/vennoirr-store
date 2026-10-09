@@ -40,16 +40,9 @@ export default function CategoryHeader({ title, breadcrumbList, image, images, d
       <div className="category-hero-static" style={{ position: 'relative', overflow: 'hidden' }}>
         {renderBackground()}
         <div className="category-overlay" style={{ position: 'relative', zIndex: 1 }}></div>
-        <div className="category-breadcrumbs" style={{ position: 'relative', zIndex: 1 }}>
-          {breadcrumbList.map((bc, index) => (
-            <span key={index}>
-              <a href={bc.path}>{bc.label}</a>
-              {index < breadcrumbList.length - 1 && " / "}
-            </span>
-          ))}
-        </div>
-        <h1 className="category-hero-title" style={{ position: 'relative', zIndex: 1 }}>{title}</h1>
       </div>
+
+
       
       {description && (
         <div className="category-description-section">
@@ -76,17 +69,17 @@ export default function CategoryHeader({ title, breadcrumbList, image, images, d
               <line x1="9" y1="8" x2="15" y2="8"></line>
               <line x1="17" y1="16" x2="23" y2="16"></line>
             </svg>
-            FILTER AND SORT
+            Refine
           </button>
         </div>
         <div className="filter-right">
           <div className="featured-dropdown">
-            FEATURED
+            Sort By: Recommended
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
-          <span className="product-count">{count} PRODUCTS</span>
+          <span className="product-count">{count} ITEMS</span>
         </div>
       </div>
     </div>

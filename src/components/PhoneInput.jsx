@@ -17,21 +17,21 @@ const PhoneInput = ({ onOtpSent }) => {
       if (!container) return;
 
       if (window.recaptchaVerifier) {
-        try { window.recaptchaVerifier.clear(); } catch (_) {}
+        try { window.recaptchaVerifier.clear(); } catch (_) { }
         window.recaptchaVerifier = null;
       }
 
       window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
         'recaptcha-container',
-        { size: 'invisible', callback: () => {} }
+        { size: 'invisible', callback: () => { } }
       );
     }, 300);
 
     return () => {
       clearTimeout(timer);
       if (window.recaptchaVerifier) {
-        try { window.recaptchaVerifier.clear(); } catch (_) {}
+        try { window.recaptchaVerifier.clear(); } catch (_) { }
         window.recaptchaVerifier = null;
       }
     };
@@ -69,7 +69,7 @@ const PhoneInput = ({ onOtpSent }) => {
       setError(err.message || 'Failed to send OTP. Please try again.');
       // Reset reCAPTCHA on failure so user can retry
       if (window.recaptchaVerifier) {
-        try { window.recaptchaVerifier.clear(); } catch (_) {}
+        try { window.recaptchaVerifier.clear(); } catch (_) { }
         window.recaptchaVerifier = null;
       }
     } finally {

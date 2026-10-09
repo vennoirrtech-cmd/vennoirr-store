@@ -140,7 +140,7 @@
 
 .vc-bag-btn:hover {
   transform: scale(1.12);
-  color: var(--red, #ff3c3c);
+  color: #fff;
   background: transparent;
 }
 
@@ -176,7 +176,7 @@
 
 .vc-wishlist-btn:hover {
   transform: scale(1.12);
-  color: var(--red, #ff3c3c);
+  color: #fff;
   background: transparent;
 }
 

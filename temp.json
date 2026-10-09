@@ -1,0 +1,62 @@
+{
+  "_id": "6aa312ba1cc1592a2e44118b",
+  "name": "Santorini Oversized Tee",
+  "slug": "santorini-oversized-tee-axfw6n",
+  "category": {
+    "_id": "6a737eb04c4f8674668b1fc7",
+    "name": "Men",
+    "slug": "men-gabhwu"
+  },
+  "brand": "VENNOIRR",
+  "description": "A clean expression of Mediterranean summer, the Santorini Tee brings together a relaxed oversized silhouette with delicate blue floral detailing on the front and a scenic Santorini-inspired artwork on the back. Designed with a soft, comfortable feel and an effortless aesthetic, it’s made for those who prefer understated pieces with character.",
+  "shortDescription": "",
+  "price": 600,
+  "mrp": 1000,
+  "discountPercent": 40,
+  "offerPrice": 600,
+  "gst": 5,
+  "sku": "S-5062",
+  "barcode": "",
+  "stockQuantity": 7,
+  "sizes": [
+    "M",
+    "L",
+    "XL"
+  ],
+  "colors": [
+    "White"
+  ],
+  "weight": 0,
+  "material": "",
+  "tags": [],
+  "gender": "Unisex",
+  "isTrending": false,
+  "isFeatured": false,
+  "isBestSeller": false,
+  "isNewArrival": true,
+  "deliveryTime": "45 Minutes",
+  "returnPolicy": "7 days easy return",
+  "isActive": true,
+  "isDeleted": false,
+  "images": [
+    {
+      "url": "https://res.cloudinary.com/demikvx8i/image/upload/v1789072048/vennoirr/products/opgv4g2xvz6fwfelahzu.png",
+      "publicId": "vennoirr/products/opgv4g2xvz6fwfelahzu",
+      "order": 0,
+      "_id": "6aa312ba1cc1592a2e44118c"
+    },
+    {
+      "url": "https://res.cloudinary.com/demikvx8i/image/upload/v1789072057/vennoirr/products/qxcimvpzk0jervlqw2nn.png",
+      "publicId": "vennoirr/products/qxcimvpzk0jervlqw2nn",
+      "order": 1,
+      "_id": "6aa312ba1cc1592a2e44118d"
+    }
+  ],
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "soldCount": 3,
+  "createdAt": "2026-09-10T20:27:38.835Z",
+  "updatedAt": "2026-10-03T08:43:48.162Z",
+  "__v": 1,
+  "variants": []
+}

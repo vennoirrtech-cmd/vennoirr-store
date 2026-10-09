@@ -5,4 +5,4 @@ Disallow: /login
 Disallow: /account
 Disallow: /checkout
 
-Sitemap: https://vennoirr.com/sitemap.xml
+Sitemap: https://vennoirr-backend.onrender.com/sitemap.xml

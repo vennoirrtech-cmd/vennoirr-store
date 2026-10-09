@@ -1,19 +1,20 @@
-/* ─── Admin Page Layout ──────────────────────────────────────────── */
+/* ─── Admin Page Layout (SHADCN TECH THEME) ──────────────────────── */
 .admin-page {
   display: flex;
   min-height: 100vh;
-  background: #0d0d0d;
-  font-family: 'Inter', sans-serif;
+  background: #f8fafc; /* slate-50 */
+  font-family: inherit;
+  color: #0f172a;
 }
 
 /* ─── Sidebar ─────────────────────────────────────────────────────── */
 .admin-sidebar {
-  width: 220px;
-  background: #121212;
-  border-right: 1px solid #1f1f1f;
+  width: 240px;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  padding: 28px 20px;
+  padding: 24px;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -21,56 +22,58 @@
 }
 
 .admin-logo {
-  font-weight: 900;
+  font-weight: 700;
   font-size: 1.1rem;
-  letter-spacing: 4px;
-  color: #fff;
+  letter-spacing: 0px;
+  color: #0f172a;
   display: flex;
   align-items: center;
   gap: 2px;
 }
 .admin-logo .logo-v {
-  color: #e0c080;
+  font-weight: 900;
+  color: #0f172a;
 }
 
 .admin-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 .admin-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  color: #aaa;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #64748b;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.15s ease;
 }
 .admin-nav-item:hover,
 .admin-nav-item.active {
-  background: #1e1e1e;
-  color: #e0c080;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .admin-visit-site {
   margin-top: auto;
-  color: #666;
-  font-size: 0.8rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.15s;
 }
 .admin-visit-site:hover {
-  color: #e0c080;
+  color: #0f172a;
 }
 
 /* ─── Main ────────────────────────────────────────────────────────── */
 .admin-main {
   flex: 1;
-  padding: 40px 48px;
+  padding: 40px;
   overflow-y: auto;
 }
 
@@ -78,52 +81,52 @@
   margin-bottom: 32px;
 }
 .admin-header h1 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 1px;
-  margin: 0 0 4px;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 0 0 6px;
 }
 .admin-header p {
-  color: #555;
-  font-size: 0.85rem;
+  color: #64748b;
+  font-size: 0.875rem;
   margin: 0;
 }
 
 /* ─── Card ────────────────────────────────────────────────────────── */
 .admin-card {
-  background: #161616;
-  border: 1px solid #222;
-  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   padding: 32px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 .admin-card h2 {
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
+  color: #0f172a;
+  font-size: 1.125rem;
+  font-weight: 600;
   margin: 0 0 24px;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.025em;
 }
 
 /* ─── Success Banner ──────────────────────────────────────────────── */
 .admin-success {
-  background: linear-gradient(135deg, #14532d 0%, #166534 100%);
-  border: 1px solid #15803d;
-  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
   padding: 12px 16px;
-  color: #86efac;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-  animation: fadeIn 0.3s ease;
+  color: #166534;
+  font-size: 0.875rem;
+  margin-bottom: 24px;
+  font-weight: 500;
 }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ─── Form ────────────────────────────────────────────────────────── */
 .admin-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 
 .form-group {
@@ -136,102 +139,96 @@
 }
 
 .form-group label {
-  color: #aaa;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  color: #0f172a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .form-group label em {
-  font-style: normal;
-  color: #555;
+  color: #64748b;
   font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 0.75rem;
+  margin-left: 4px;
 }
 .required {
-  color: #e07070;
+  color: #ef4444;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea,
 .form-group select {
-  background: #0d0d0d;
-  border: 1.5px solid #2a2a2a;
-  border-radius: 8px;
-  padding: 10px 14px;
-  color: #f0f0f0;
-  font-size: 0.9rem;
-  font-family: inherit;
-  transition: border-color 0.2s;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #0f172a;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
   outline: none;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  border-color: #e0c080;
+  border-color: #0f172a;
+  box-shadow: 0 0 0 1px #0f172a;
 }
 .form-group input.has-error,
 .form-group .image-dropzone.has-error {
-  border-color: #e07070 !important;
+  border-color: #ef4444 !important;
 }
 
 .field-error {
-  color: #e07070;
+  color: #ef4444;
   font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .checkbox-label {
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
-  gap: 10px;
-  color: #ccc !important;
-  font-size: 0.9rem !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
+  gap: 8px;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500;
   cursor: pointer;
 }
 .checkbox-label input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #e0c080;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  accent-color: #0f172a;
   cursor: pointer;
 }
 
 /* ─── Image Dropzone ──────────────────────────────────────────────── */
 .image-dropzone {
-  border: 2px dashed #333;
-  border-radius: 12px;
-  padding: 36px 20px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
-  color: #555;
-  transition: border-color 0.2s, background 0.2s;
+  color: #64748b;
+  background: #fafafa;
+  transition: all 0.2s;
   text-align: center;
+  font-size: 0.875rem;
 }
 .image-dropzone:hover,
 .image-dropzone.dragging {
-  border-color: #e0c080;
-  background: #1a1a10;
-  color: #e0c080;
-}
-.image-dropzone svg {
-  opacity: 0.7;
-}
-.image-dropzone p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: inherit;
+  border-color: #0f172a;
+  background: #f8fafc;
+  color: #0f172a;
 }
 .dropzone-hint {
   font-size: 0.75rem;
-  color: #444;
+  color: #94a3b8;
 }
 
 /* ─── Image Previews ──────────────────────────────────────────────── */
@@ -239,15 +236,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 .preview-thumb {
   position: relative;
-  width: 90px;
-  height: 90px;
-  border-radius: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
   overflow: hidden;
-  border: 2px solid #2a2a2a;
+  border: 1px solid #e2e8f0;
 }
 .preview-thumb img {
   width: 100%;
@@ -259,24 +256,20 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0,0,0,0.6);
-  color: #e0c080;
+  background: rgba(15, 23, 42, 0.8);
+  color: #ffffff;
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
-  padding: 2px 0;
-  letter-spacing: 0.5px;
-}
-.thumb-badge.hover {
-  color: #80c0e0;
+  padding: 4px 0;
 }
 .remove-thumb {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  background: rgba(0,0,0,0.7);
-  border: none;
-  color: #fff;
+  top: -4px;
+  right: -4px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -284,11 +277,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.7rem;
-  transition: background 0.2s;
+  font-size: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 .remove-thumb:hover {
-  background: #e07070;
+  color: #ef4444;
+  border-color: #ef4444;
 }
 
 /* ─── Size Chips ──────────────────────────────────────────────────── */
@@ -298,24 +292,23 @@
   gap: 8px;
 }
 .size-chip {
-  padding: 6px 14px;
-  border: 1.5px solid #333;
+  padding: 6px 16px;
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
-  background: transparent;
-  color: #aaa;
+  background: #ffffff;
+  color: #0f172a;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: all 0.2s;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s;
 }
 .size-chip.active {
-  border-color: #e0c080;
-  color: #e0c080;
-  background: rgba(224, 192, 128, 0.08);
+  border-color: #0f172a;
+  background: #0f172a;
+  color: #ffffff;
 }
-.size-chip:hover {
-  border-color: #e0c080;
-  color: #e0c080;
+.size-chip:hover:not(.active) {
+  background: #f1f5f9;
 }
 
 /* ─── Submit Button ───────────────────────────────────────────────── */
@@ -323,25 +316,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #e0c080 0%, #c9a84c 100%);
-  color: #0d0d0d;
+  padding: 10px 16px;
+  background: #0f172a;
+  color: #ffffff;
   border: none;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 800;
-  letter-spacing: 1px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+  height: 40px;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: background 0.15s;
 }
 .admin-submit-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-.admin-submit-btn:active {
-  transform: translateY(0);
+  background: #334155;
 }
 
 /* ─── Product List ────────────────────────────────────────────────── */
@@ -354,17 +344,22 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #0d0d0d;
-  border: 1px solid #1f1f1f;
-  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   padding: 12px 16px;
+  transition: border-color 0.15s;
+}
+.admin-product-row:hover {
+  border-color: #cbd5e1;
 }
 .admin-product-img {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
   overflow: hidden;
-  background: #1a1a1a;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
   flex-shrink: 0;
 }
 .admin-product-img img {
@@ -373,8 +368,8 @@
   object-fit: cover;
 }
 .no-img {
-  color: #444;
-  font-size: 0.7rem;
+  color: #94a3b8;
+  font-size: 0.65rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,15 +379,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 .admin-product-info strong {
-  color: #f0f0f0;
-  font-size: 0.9rem;
+  color: #0f172a;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 .admin-product-info span {
-  color: #888;
-  font-size: 0.8rem;
+  color: #64748b;
+  font-size: 0.8125rem;
 }
 .product-meta {
   display: flex;
@@ -400,36 +396,42 @@
   gap: 6px;
 }
 .tag {
-  font-style: normal;
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  letter-spacing: 0;
 }
 .tag.new {
-  background: rgba(134, 239, 172, 0.1);
-  color: #86efac;
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
 }
 .tag.best {
-  background: rgba(224, 192, 128, 0.1);
-  color: #e0c080;
+  background: #fefce8;
+  color: #854d0e;
+  border-color: #fef08a;
+}
+.tag.trend {
+  background: #faf5ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
 }
 .admin-delete-btn {
   background: transparent;
-  border: 1px solid #333;
-  color: #666;
+  border: 1px solid transparent;
+  color: #94a3b8;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .admin-delete-btn:hover {
-  border-color: #e07070;
-  color: #e07070;
-  background: rgba(224, 112, 112, 0.08);
+  color: #ef4444;
+  background: #fef2f2;
 }
 
 /* ─── Responsive ──────────────────────────────────────────────────── */
@@ -438,7 +440,7 @@
     display: none;
   }
   .admin-main {
-    padding: 24px 20px;
+    padding: 24px 16px;
   }
   .admin-form {
     grid-template-columns: 1fr;
@@ -448,104 +450,105 @@
 /* ─── Admin Login Screen ──────────────────────────────────────────── */
 .admin-login-screen {
   min-height: 100vh;
-  background: #0d0d0d;
+  background-color: #f8fafc;
+  background-image: 
+    linear-gradient(to right, #cbd5e1 1px, transparent 1px),
+    linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
+  position: relative;
+}
+.admin-login-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 10%, #f8fafc 80%);
+  pointer-events: none;
+  z-index: 0;
 }
 .admin-login-card {
-  background: #161616;
-  border: 1px solid #222;
-  border-radius: 16px;
-  padding: 40px 36px;
+  z-index: 10;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 40px;
   width: 100%;
   max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
 }
 .admin-login-card h2 {
-  color: #fff;
-  font-size: 1.3rem;
-  font-weight: 700;
+  color: #0f172a;
+  font-size: 1.25rem;
+  font-weight: 600;
   margin: 0 0 24px;
   text-align: center;
+  letter-spacing: -0.025em;
+}
+.admin-login-card .form-group {
+  margin-bottom: 24px; /* Ensure 24px spacing underneath form inputs in login */
 }
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 .admin-back-link {
   display: block;
   text-align: center;
-  margin-top: 20px;
-  color: #555;
-  font-size: 0.82rem;
+  margin-top: 24px;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s;
 }
 .admin-back-link:hover {
-  color: #e0c080;
+  color: #0f172a;
 }
-
-/* ─── Error Banner ────────────────────────────────────────────────── */
 .admin-error {
-  background: rgba(224, 112, 112, 0.1);
-  border: 1px solid #c0515130;
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: #f87171;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 12px;
+  color: #ef4444;
   font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  font-weight: 500;
 }
-
-/* ─── Logout Button ───────────────────────────────────────────────── */
 .admin-logout-btn {
   display: flex;
   align-items: center;
   gap: 8px;
   background: transparent;
-  border: 1px solid #2a2a2a;
-  color: #666;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.82rem;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .admin-logout-btn:hover {
-  border-color: #e07070;
-  color: #e07070;
+  background: #f1f5f9;
 }
-
-/* ─── Spin Animation ──────────────────────────────────────────────── */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 .spin {
   animation: spin 0.8s linear infinite;
 }
-
-/* ─── Disabled Button ─────────────────────────────────────────────── */
 .admin-submit-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
 }
-
-/* ─── Hints / Loading ─────────────────────────────────────────────── */
 .field-hint,
 .loading-hint {
-  color: #555;
-  font-size: 0.82rem;
+  color: #64748b;
+  font-size: 0.8125rem;
 }
-
-/* ─── Trending tag ────────────────────────────────────────────────── */
-.tag.trend {
-  background: rgba(167, 139, 250, 0.1);
-  color: #a78bfa;
-}
-

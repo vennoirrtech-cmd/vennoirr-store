@@ -5,48 +5,45 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 80px;
-  padding: 0 clamp(20px, 3vw, 48px);
+  height: 72px;
+  padding: 0 var(--gutter-desktop);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   z-index: var(--z-sticky);
-  transition: all 0.4s var(--ease-smooth);
+  transition: all var(--dur-normal) var(--ease-out);
 }
 
 /* States */
 .navbar--solid {
-  background: var(--white);
-  color: var(--black);
+  background: var(--bg);
+  color: var(--ink);
 }
 
 .navbar--transparent {
-  background: transparent;
-  color: var(--white);
+  background: linear-gradient(to bottom, rgba(10,10,20,0.55) 0%, transparent 100%);
+  color: var(--surface);
 }
 
 .navbar--scrolled {
-  background: var(--white);
-  color: var(--black);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+  background: var(--bg);
+  color: var(--ink);
+  border-bottom: 1px solid var(--border);
 }
 
 /* Color overrides for transparent */
-.navbar--transparent .nav-icon,
-.navbar--transparent .chevron { color: var(--white); }
-.navbar--transparent .nav-logo { color: var(--white); }
-.navbar--transparent .nav-search-bar {
-  border-color: rgba(255,255,255,0.35);
-  color: var(--white);
-}
-.navbar--transparent .nav-search-bar .search-placeholder {
-  color: rgba(255,255,255,0.5);
+.navbar--transparent .nav-icon-btn,
+.navbar--transparent .chevron,
+.navbar--transparent .nav-logo { 
+  color: var(--surface); 
 }
 
-.navbar--scrolled .nav-icon,
-.navbar--solid .nav-icon,
+.navbar--scrolled .nav-icon-btn,
+.navbar--solid .nav-icon-btn,
 .navbar--scrolled .chevron,
-.navbar--solid .chevron { color: var(--black); }
+.navbar--solid .chevron { 
+  color: var(--ink); 
+}
 
 /* =========================
    LEFT: NAV LINKS
@@ -64,23 +61,23 @@
 }
 
 .nav-link {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   text-decoration: none;
   color: inherit;
   display: flex;
   align-items: center;
   gap: 4px;
   cursor: pointer;
-  transition: opacity 0.3s ease;
-  text-transform: uppercase;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  text-transform: capitalize;
   padding: 8px 0;
 }
 
 .nav-link .chevron {
-  transition: transform 0.25s ease;
+  transition: transform var(--dur-fast) var(--ease-out);
   margin-top: 1px;
 }
 
@@ -114,15 +111,17 @@
    CENTER: LOGO
 ========================= */
 .nav-logo {
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.5vw, 28px);
-  font-weight: 800;
-  letter-spacing: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.5vw, 24px);
+  font-weight: 400;
+  letter-spacing: 6px;
   text-decoration: none;
   color: inherit;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
+  border: none;
+  background: transparent;
 }
 
 /* =========================
@@ -135,83 +134,43 @@
   gap: clamp(14px, 2vw, 20px);
 }
 
-/* Search bar (desktop) */
-.nav-search-bar {
+.nav-icon-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border: 1.5px solid var(--grey-300);
-  border-radius: 4px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s;
-  min-width: 160px;
-  justify-content: space-between;
+  color: inherit;
+  transition: opacity 120ms ease-out, color 120ms ease-out;
 }
 
-.nav-search-bar .search-placeholder {
-  font-size: 13px;
-  color: var(--grey-400);
-  font-family: var(--font-body);
+.nav-icon-btn:hover {
+  opacity: 0.7;
 }
 
-.nav-search-bar:hover {
-  border-color: var(--black);
-}
 
-.navbar--transparent .nav-search-bar:hover {
-  border-color: rgba(255,255,255,0.7);
-}
-
-/* Icons */
-.nav-icons {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 20px);
-}
-
-.nav-icon {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  stroke-width: 1.8px;
-}
-
-.nav-icon:hover {
-  transform: scale(1.1);
-  opacity: 0.65;
-}
-
-/* Search icon only on mobile */
-.search-mobile {
-  display: none;
-}
-
-.cart-icon-wrap {
+.cart-icon-btn {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
-.wishlist-icon-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.cart-badge {
+.cart-badge-solid {
   position: absolute;
-  top: -8px;
-  right: -10px;
-  background: var(--red);
+  top: 6px;
+  right: 6px;
+  background: var(--accent); /* #C0202B */
   color: var(--white);
   font-size: 10px;
   font-weight: 700;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
 }
 
 /* =========================
@@ -260,7 +219,7 @@
 }
 
 .dropdown a:hover {
-  color: var(--red);
+  color: var(--ink);
   padding-left: 4px;
 }
 
@@ -283,12 +242,8 @@
    RESPONSIVE — TABLET
 ========================= */
 @media (max-width: 1024px) {
-  .nav-search-bar {
-    min-width: 120px;
-    padding: 8px 12px;
-  }
-  .nav-search-bar .search-placeholder {
-    font-size: 12px;
+  .nav-right-area {
+    gap: 8px;
   }
 }
 
@@ -314,15 +269,6 @@
     letter-spacing: 3px;
   }
 
-  /* Hide desktop search bar */
-  .nav-search-bar {
-    display: none;
-  }
-
-  /* Show mobile search icon */
-  .search-mobile {
-    display: block;
-  }
 
   /* ─── Mobile Side Drawer ─── */
   .nav-links {
@@ -428,7 +374,7 @@
 
   .dropdown a:hover,
   .dropdown a:active {
-    color: var(--red);
+    color: var(--ink);
     background: #f5f5f5;
   }
 }

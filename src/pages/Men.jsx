@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import ProductGrid from "../components/ProductGrid";
 import CategoryHeader from "../components/CategoryHeader";
 import menBannerImage from "../assets/images/Hero Image.png";
@@ -5,6 +6,11 @@ import menBannerImage from "../assets/images/Hero Image.png";
 export default function Men() {
   return (
     <>
+      <Helmet>
+        <title>Men's Streetwear Collection | Vennoirr</title>
+        <meta name="description" content="Shop Vennoirr's men's premium streetwear — Funky & Premium collections. Bold graphics, luxury fabrics. Free shipping on orders above ₹999." />
+        <link rel="canonical" href="https://vennoirr.com/men" />
+      </Helmet>
       <CategoryHeader 
         title="MEN'S COLLECTION"
         breadcrumbList={[

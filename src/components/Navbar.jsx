@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FiUser,
-  FiHeart,
+  FiBookmark,
   FiShoppingBag,
   FiSearch,
   FiMenu,
   FiX,
-  FiChevronDown,
-  FiLogOut
+  FiChevronDown
 } from "react-icons/fi";
 
 import "./Navbar.css";
@@ -16,6 +16,7 @@ import LoginModal from "./LoginModal";
 import SearchOverlay from "./SearchOverlay";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
+import { menuSlide, opacityFade, staggerLinks } from "../lib/motionVariants";
 
 export default function Navbar() {
   const { pathname } = useLocation();
@@ -32,7 +33,7 @@ export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth <= 768);
 
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (pathname !== prevPathname) {
@@ -52,7 +53,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll when mobile drawer is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -72,8 +72,8 @@ export default function Navbar() {
       ? "navbar navbar--scrolled"
       : "navbar navbar--transparent"
     : scrolled
-    ? "navbar navbar--scrolled"
-    : "navbar navbar--solid";
+      ? "navbar navbar--scrolled"
+      : "navbar navbar--solid";
 
   if (mobileOpen) {
     navClass += " mobile-active";
@@ -88,79 +88,39 @@ export default function Navbar() {
             {mobileOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </div>
 
-          <div className={`nav-links ${mobileOpen ? "active" : ""}`}>
-            {/* WOMEN */}
-            <div
-              className={`nav-item ${openMenu === "women" ? "open" : ""}`}
-              onMouseEnter={() => !isMobile && setOpenMenu("women")}
-              onMouseLeave={() => !isMobile && setOpenMenu(null)}
-            >
-              {isMobile ? (
-                <>
-                  <div
-                    className={`nav-link ${isWomen ? "active" : ""}`}
-                    onClick={() => toggleDropdown("women")}
-                  >
-                    Women <FiChevronDown size={13} className={`chevron ${openMenu === "women" ? "rotated" : ""}`} />
-                  </div>
-                  <div className="dropdown">
-                    <Link to="/women" onClick={closeMenu}>All Women</Link>
-                    <Link to="/women/funky" onClick={closeMenu}>Funky</Link>
-                    <Link to="/women/premium" onClick={closeMenu}>Premium</Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/women"
-                    className={`nav-link ${isWomen ? "active" : ""}`}
-                  >
-                    Women <FiChevronDown size={13} className="chevron" />
-                  </Link>
-                  <div className={`dropdown ${openMenu === "women" ? "show" : ""}`}>
-                    <Link to="/women/funky" onClick={closeMenu}>Funky</Link>
-                    <Link to="/women/premium" onClick={closeMenu}>Premium</Link>
-                  </div>
-                </>
-              )}
-            </div>
+          {!isMobile && (
+            <div className="nav-links">
+              {/* DESKTOP WOMEN */}
+              <div className={`nav-item ${openMenu === "women" ? "open" : ""}`}>
+                <div
+                  className={`nav-link ${isWomen ? "active" : ""}`}
+                  onClick={() => toggleDropdown("women")}
+                >
+                  Women <FiChevronDown size={13} className={`chevron ${openMenu === "women" ? "rotated" : ""}`} />
+                </div>
+                <div className={`dropdown ${openMenu === "women" ? "show" : ""}`}>
+                  <Link to="/women" onClick={closeMenu}>All Women</Link>
+                  <Link to="/women/funky" onClick={closeMenu}>Funky</Link>
+                  <Link to="/women/premium" onClick={closeMenu}>Premium</Link>
+                </div>
+              </div>
 
-            {/* MEN */}
-            <div
-              className={`nav-item ${openMenu === "men" ? "open" : ""}`}
-              onMouseEnter={() => !isMobile && setOpenMenu("men")}
-              onMouseLeave={() => !isMobile && setOpenMenu(null)}
-            >
-              {isMobile ? (
-                <>
-                  <div
-                    className={`nav-link ${isMen ? "active" : ""}`}
-                    onClick={() => toggleDropdown("men")}
-                  >
-                    Men <FiChevronDown size={13} className={`chevron ${openMenu === "men" ? "rotated" : ""}`} />
-                  </div>
-                  <div className="dropdown">
-                    <Link to="/men" onClick={closeMenu}>All Men</Link>
-                    <Link to="/men/funky" onClick={closeMenu}>Funky</Link>
-                    <Link to="/men/premium" onClick={closeMenu}>Premium</Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/men"
-                    className={`nav-link ${isMen ? "active" : ""}`}
-                  >
-                    Men <FiChevronDown size={13} className="chevron" />
-                  </Link>
-                  <div className={`dropdown ${openMenu === "men" ? "show" : ""}`}>
-                    <Link to="/men/funky" onClick={closeMenu}>Funky</Link>
-                    <Link to="/men/premium" onClick={closeMenu}>Premium</Link>
-                  </div>
-                </>
-              )}
+              {/* DESKTOP MEN */}
+              <div className={`nav-item ${openMenu === "men" ? "open" : ""}`}>
+                <div
+                  className={`nav-link ${isMen ? "active" : ""}`}
+                  onClick={() => toggleDropdown("men")}
+                >
+                  Men <FiChevronDown size={13} className={`chevron ${openMenu === "men" ? "rotated" : ""}`} />
+                </div>
+                <div className={`dropdown ${openMenu === "men" ? "show" : ""}`}>
+                  <Link to="/men" onClick={closeMenu}>All Men</Link>
+                  <Link to="/men/funky" onClick={closeMenu}>Funky</Link>
+                  <Link to="/men/premium" onClick={closeMenu}>Premium</Link>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* CENTER: LOGO */}
@@ -168,51 +128,102 @@ export default function Navbar() {
           VENNOIRR
         </Link>
 
-        {/* RIGHT: SEARCH BAR + ICONS */}
+        {/* RIGHT: ICONS */}
         <div className="nav-right-area">
-          {/* SEARCH BAR (desktop) */}
-          <div className="nav-search-bar" onClick={() => setShowSearch(true)}>
-            <span className="search-placeholder">Search...</span>
-            <FiSearch size={16} />
-          </div>
+          <button
+            className="nav-icon-btn"
+            onClick={() => setShowSearch(true)}
+            aria-label="Search"
+            title="Search"
+          >
+            <FiSearch size={22} strokeWidth={1.5} />
+          </button>
 
-          {/* ICONS */}
-          <div className="nav-icons">
-            {/* Search icon (mobile) */}
-            <FiSearch
-              size={20}
-              className="nav-icon search-mobile"
-              onClick={() => setShowSearch(true)}
-            />
-
+          <button
+            className="nav-icon-btn"
+            onClick={() => { closeMenu(); if (!user) setShowLogin(true); }}
+            aria-label="Account"
+            title="Account"
+          >
             {user ? (
-              <Link to="/account" onClick={closeMenu} className="user-icon-wrap">
-                <FiUser size={20} className="nav-icon" />
-              </Link>
+              <Link to="/account" style={{ display: 'flex' }}><FiUser size={22} strokeWidth={1.5} /></Link>
             ) : (
-              <div className="user-icon-wrap" style={{ cursor: "pointer" }} onClick={() => { closeMenu(); setShowLogin(true); }}>
-                <FiUser size={20} className="nav-icon" />
-              </div>
+              <FiUser size={22} strokeWidth={1.5} />
             )}
+          </button>
 
-            <Link to="/wishlist" onClick={closeMenu} className="wishlist-icon-wrap">
-              <FiHeart size={20} className="nav-icon" />
-            </Link>
+          <Link
+            to="/wishlist"
+            className="nav-icon-btn"
+            onClick={closeMenu}
+            aria-label="Wishlist"
+            title="Wishlist"
+          >
+            <FiBookmark size={22} strokeWidth={1.5} />
+          </Link>
 
-            <Link to="/cart" onClick={closeMenu} className="cart-icon-wrap">
-              <FiShoppingBag size={20} className="nav-icon" />
-              {cart.length > 0 && (
-                <span className="cart-badge">{cart.length}</span>
-              )}
-            </Link>
-          </div>
+          <Link
+            to="/cart"
+            className="nav-icon-btn cart-icon-btn"
+            onClick={closeMenu}
+            aria-label="Cart"
+            title="Cart"
+          >
+            <FiShoppingBag size={22} strokeWidth={1.5} />
+            {cart.length > 0 && <span className="cart-badge-solid">{cart.length}</span>}
+          </Link>
         </div>
       </nav>
 
-      {/* MOBILE OVERLAY */}
-      {mobileOpen && (
-        <div className="mobile-overlay" onClick={closeMenu}></div>
-      )}
+      {/* MOBILE DRAWER */}
+      <AnimatePresence>
+        {isMobile && mobileOpen && (
+          <motion.div
+            className="nav-links mobile-drawer"
+            variants={menuSlide}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            style={{ left: 0 }} /* Override legacy active css */
+          >
+            <motion.div custom={1} variants={staggerLinks} initial="initial" animate="enter" exit="exit" className={`nav-item ${openMenu === "women" ? "open" : ""}`}>
+              <div className={`nav-link ${isWomen ? "active" : ""}`} onClick={() => toggleDropdown("women")}>
+                Women <FiChevronDown size={13} className={`chevron ${openMenu === "women" ? "rotated" : ""}`} />
+              </div>
+              <div className="dropdown">
+                <Link to="/women" onClick={closeMenu}>All Women</Link>
+                <Link to="/women/funky" onClick={closeMenu}>Funky</Link>
+                <Link to="/women/premium" onClick={closeMenu}>Premium</Link>
+              </div>
+            </motion.div>
+
+            <motion.div custom={2} variants={staggerLinks} initial="initial" animate="enter" exit="exit" className={`nav-item ${openMenu === "men" ? "open" : ""}`}>
+              <div className={`nav-link ${isMen ? "active" : ""}`} onClick={() => toggleDropdown("men")}>
+                Men <FiChevronDown size={13} className={`chevron ${openMenu === "men" ? "rotated" : ""}`} />
+              </div>
+              <div className="dropdown">
+                <Link to="/men" onClick={closeMenu}>All Men</Link>
+                <Link to="/men/funky" onClick={closeMenu}>Funky</Link>
+                <Link to="/men/premium" onClick={closeMenu}>Premium</Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            className="mobile-overlay"
+            variants={opacityFade}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            onClick={closeMenu}
+            style={{ animation: "none" }} /* Override legacy css */
+          />
+        )}
+      </AnimatePresence>
 
       {/* MODALS */}
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}

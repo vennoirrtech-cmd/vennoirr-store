@@ -15,8 +15,9 @@ export default function Women() {
   return (
     <>
       <Helmet>
-        <title>Women's Collection | Vennoirr</title>
-        <meta name="description" content="Stay cool and confident with Vennoirr's women's collection - your go-to for easy layering and everyday streetwear comfort." />
+        <title>Women's Streetwear Collection | Vennoirr</title>
+        <meta name="description" content="Shop Vennoirr's women's premium streetwear. Express your style with bold fashion. Free shipping above ₹999." />
+        <link rel="canonical" href="https://vennoirr.com/women" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

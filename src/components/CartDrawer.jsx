@@ -21,7 +21,7 @@ export default function CartDrawer({ onClose }) {
           </div>
           <button className="cd-close" onClick={onClose} aria-label="Close cart">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
@@ -46,8 +46,8 @@ export default function CartDrawer({ onClose }) {
           {cart.length === 0 ? (
             <div className="cd-empty">
               <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
-                <path d="M16 10a4 4 0 0 1-8 0"/>
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
               <p>Your cart is empty</p>
               <button className="cd-shop-btn" onClick={onClose}>CONTINUE SHOPPING</button>
@@ -60,16 +60,19 @@ export default function CartDrawer({ onClose }) {
                 </Link>
                 <div className="cd-item-info">
                   <p className="cd-item-name">{item.name || item.title}</p>
-                  {item.size && <p className="cd-item-meta">Size: {item.size}</p>}
+                  <div className="cd-item-meta">
+                    {item.size && <span>Size: {item.size}</span>}
+                    {item.color && <span style={{ marginLeft: '8px' }}>Color: {item.color}</span>}
+                  </div>
                   <div className="cd-qty-row">
                     <div className="cd-qty">
-                      <button onClick={() => updateQty(i, -1)}>−</button>
-                      <span>{item.qty}</span>
-                      <button onClick={() => updateQty(i, 1)}>+</button>
+                      <button onClick={() => updateQty(item._id || item.id, item.size, item.color, item.quantity - 1)}>−</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQty(item._id || item.id, item.size, item.color, item.quantity + 1)}>+</button>
                     </div>
-                    <span className="cd-item-price">₹{(item.price * item.qty).toLocaleString("en-IN")}</span>
+                    <span className="cd-item-price">₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
                   </div>
-                  <button className="cd-remove" onClick={() => removeFromCart(i)}>Remove</button>
+                  <button className="cd-remove" onClick={() => removeFromCart(item._id || item.id, item.size, item.color)}>Remove</button>
                 </div>
               </div>
             ))

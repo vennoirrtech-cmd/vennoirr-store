@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import ProductGrid from "../components/ProductGrid";
 import CategoryHeader from "../components/CategoryHeader";
 import womenBannerImage from "../assets/images/Untitled-2 (1)_page-0001.jpg";
@@ -5,6 +6,11 @@ import womenBannerImage from "../assets/images/Untitled-2 (1)_page-0001.jpg";
 export default function WomenPremium() {
   return (
     <>
+      <Helmet>
+        <title>Women's Premium Streetwear | Vennoirr</title>
+        <meta name="description" content="Shop Vennoirr Women's Premium collection. Sophisticated streetwear, luxury fabrics. Free shipping above ₹999." />
+        <link rel="canonical" href="https://vennoirr.com/women/premium" />
+      </Helmet>
       <CategoryHeader 
         title="WOMEN — PREMIUM"
         breadcrumbList={[

@@ -22,10 +22,10 @@ export default function ProductSidebar({ product, close }) {
       <div className="product-sidebar">
         <button className="sidebar-close" onClick={close}>✕</button>
 
-        <img 
-          src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 800)} 
-          alt={product.title || product.name} 
-          className="sidebar-image" 
+        <img
+          src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 800)}
+          alt={product.title || product.name}
+          className="sidebar-image"
           loading="lazy"
           decoding="async"
         />

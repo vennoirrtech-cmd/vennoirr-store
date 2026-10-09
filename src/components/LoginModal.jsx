@@ -13,7 +13,7 @@ export default function LoginModal({ onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showQr, setShowQr] = useState(true);
-  
+
   const otpRefs = useRef([]);
   const { loginAuth } = useAuth();
 
@@ -31,29 +31,29 @@ export default function LoginModal({ onClose }) {
 
     // Clear any existing verifier
     if (window.recaptchaVerifier) {
-      try { window.recaptchaVerifier.clear(); } catch (_) {}
+      try { window.recaptchaVerifier.clear(); } catch (_) { }
       window.recaptchaVerifier = null;
     }
 
     // Create fresh verifier
     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', {
       size: 'invisible',
-      callback: () => {},
+      callback: () => { },
       'expired-callback': () => {
         // Auto-reset when reCAPTCHA expires
         if (window.recaptchaVerifier) {
-          try { window.recaptchaVerifier.clear(); } catch (_) {}
+          try { window.recaptchaVerifier.clear(); } catch (_) { }
           window.recaptchaVerifier = null;
         }
       }
     });
 
     // Pre-render to avoid cold-start crash on first click
-    window.recaptchaVerifier.render().catch(() => {});
+    window.recaptchaVerifier.render().catch(() => { });
 
     return () => {
       if (window.recaptchaVerifier) {
-        try { window.recaptchaVerifier.clear(); } catch (_) {}
+        try { window.recaptchaVerifier.clear(); } catch (_) { }
         window.recaptchaVerifier = null;
       }
     };
@@ -67,16 +67,16 @@ export default function LoginModal({ onClose }) {
   // Helper to create a fresh reCAPTCHA verifier
   const resetRecaptcha = () => {
     if (window.recaptchaVerifier) {
-      try { window.recaptchaVerifier.clear(); } catch (_) {}
+      try { window.recaptchaVerifier.clear(); } catch (_) { }
       window.recaptchaVerifier = null;
     }
     const container = document.getElementById('login-recaptcha-container');
     if (auth && container) {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'login-recaptcha-container', {
         size: 'invisible',
-        callback: () => {}
+        callback: () => { }
       });
-      window.recaptchaVerifier.render().catch(() => {});
+      window.recaptchaVerifier.render().catch(() => { });
     }
   };
 
@@ -203,7 +203,7 @@ export default function LoginModal({ onClose }) {
               <div className="download-app">
                 <div className="qr-container">
                   <svg width="34" height="34" viewBox="0 0 29 29" fill="none">
-                    <path d="M1 1h7v7H1V1zm1 1v5h5V2H2zm2 2h1v1H4V4zm8-3h1v1h-1V1zm2 0h2v1h-2V1zm3 0h1v2h-1V1zm4 0h3v1h-3V1zm-7 2h2v1h-2V3zm3 0h1v1h-1V3zm2 0h1v2h-1V3zm2 0h1v1h-1V3zm-9 2h1v1h-1V5zm4 0h1v1h-1V5zm-8 4h1v1H1V9zm2 0h1v1H3V9zm2 0h2v2H5V9zm3 0h2v1H8V9zm4 0h1v3h-1V9zm2 0h1v1h-1V9zm3 0h1v1h-1V9zm2 0h2v2h-2V9zm-13 2h2v1h-2v-1zm4 0h1v1h-1v-1zm6 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-13 2h1v2h-1v-2zm2 0h1v1h-1v-1zm4 0h1v1h-1v-1zm2 0h1v1h-1v-1zm4 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-15 2h2v1H1v-1zm3 0h1v1H4v-1zm4 0h1v1H8v-1zm4 0h1v2h-1v-2zm3 0h2v1h-2v-1zm4 0h1v1h-1v-1zm-16 2h7v7H1v-7zm1 1v5h5V18H2zm2 2h1v1H4v-1zm8-1h1v1h-1v-1zm3 0h1v1h-1v-1zm4 0h2v2h-2v-2zm-5 2h1v2h-1v-2zm3 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-7 2h1v1h-1v-1zm5 0h2v1h-2v-1zm3 0h1v1h-1v-1z" fill="black"/>
+                    <path d="M1 1h7v7H1V1zm1 1v5h5V2H2zm2 2h1v1H4V4zm8-3h1v1h-1V1zm2 0h2v1h-2V1zm3 0h1v2h-1V1zm4 0h3v1h-3V1zm-7 2h2v1h-2V3zm3 0h1v1h-1V3zm2 0h1v2h-1V3zm2 0h1v1h-1V3zm-9 2h1v1h-1V5zm4 0h1v1h-1V5zm-8 4h1v1H1V9zm2 0h1v1H3V9zm2 0h2v2H5V9zm3 0h2v1H8V9zm4 0h1v3h-1V9zm2 0h1v1h-1V9zm3 0h1v1h-1V9zm2 0h2v2h-2V9zm-13 2h2v1h-2v-1zm4 0h1v1h-1v-1zm6 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-13 2h1v2h-1v-2zm2 0h1v1h-1v-1zm4 0h1v1h-1v-1zm2 0h1v1h-1v-1zm4 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-15 2h2v1H1v-1zm3 0h1v1H4v-1zm4 0h1v1H8v-1zm4 0h1v2h-1v-2zm3 0h2v1h-2v-1zm4 0h1v1h-1v-1zm-16 2h7v7H1v-7zm1 1v5h5V18H2zm2 2h1v1H4v-1zm8-1h1v1h-1v-1zm3 0h1v1h-1v-1zm4 0h2v2h-2v-2zm-5 2h1v2h-1v-2zm3 0h2v1h-2v-1zm3 0h1v1h-1v-1zm-7 2h1v1h-1v-1zm5 0h2v1h-2v-1zm3 0h1v1h-1v-1z" fill="black" />
                   </svg>
                 </div>
                 <div className="download-info">
@@ -217,7 +217,7 @@ export default function LoginModal({ onClose }) {
 
         {/* RIGHT PANEL */}
         <div className="login-right">
-          
+
           {/* MOBILE NUMBER INPUT */}
           {step === "MOBILE" && (
             <>
@@ -238,7 +238,7 @@ export default function LoginModal({ onClose }) {
                 />
               </div>
 
-              {error && <p className="error-text" style={{color: '#ff3b30', fontSize: '12px', textAlign: 'center', margin: '-10px 0 15px'}}>{error}</p>}
+              {error && <p className="error-text" style={{ color: '#ff3b30', fontSize: '12px', textAlign: 'center', margin: '-10px 0 15px' }}>{error}</p>}
 
               <button className="otp-btn" onClick={sendOtp} disabled={loading || mobile.length !== 10}>
                 {loading ? "Please wait..." : "Submit"}
@@ -282,13 +282,13 @@ export default function LoginModal({ onClose }) {
                 ))}
               </div>
 
-              {error && <p className="error-text" style={{color: '#ff3b30', fontSize: '12px', textAlign: 'center', margin: '-5px 0 15px'}}>{error}</p>}
+              {error && <p className="error-text" style={{ color: '#ff3b30', fontSize: '12px', textAlign: 'center', margin: '-5px 0 15px' }}>{error}</p>}
 
               <p className="resend">
                 {timeLeft > 0 ? (
                   <span>Resend OTP in {timeLeft}s</span>
                 ) : (
-                  <span onClick={sendOtp} style={{textDecoration: 'underline'}}>Resend OTP</span>
+                  <span onClick={sendOtp} style={{ textDecoration: 'underline' }}>Resend OTP</span>
                 )}
               </p>
 

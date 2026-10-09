@@ -25,98 +25,56 @@ export default function WishlistPage() {
         </div>
       ) : (
         <div className="product-grid" style={{ padding: 0 }}>
-          {wishlist.map((product) => (
-            <div key={product._id || product.id} className="product-card" style={{ pointerEvents: "auto" }}>
-              {product.isVideo ? (
-                <div className="card-image">
-                  <img src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 600)} alt={product.title} className="primary-img" loading="lazy" />
-                </div>
-              ) : (
-                <Link to={`/product/${product._id || product.id}`}>
-                  <div className="card-image">
-                    <img src={optimizeImage(product.image || product.images?.[0]?.url || product.images?.[0] || "", 600)} alt={product.title} className="primary-img" loading="lazy" />
-                    {product.discount > 0 && (
-                      <span className="discount-badge">SAVE {product.discount}%</span>
-                    )}
-                  </div>
-                </Link>
-              )}
+          {wishlist.map((product) => {
+            const pid = product._id || product.id;
+            const imgSrc = optimizeImage(
+              product.image || product.images?.[0]?.url || product.images?.[0] || "",
+              600
+            );
 
-              <div className="card-info">
-                <h4>{product.title}</h4>
-                {!product.isVideo && (
+            return (
+              <div key={pid} className="wishlist-card">
+                {/* Plain static image — no hover swap */}
+                <Link to={`/product/${pid}`} className="wishlist-card__img-wrap">
+                  <img
+                    src={imgSrc}
+                    alt={product.title || product.name}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {(product.discount > 0 || product.discountPercent > 0) && (
+                    <span className="discount-badge">
+                      SAVE {product.discount || product.discountPercent}%
+                    </span>
+                  )}
+                </Link>
+
+                <div className="card-info">
+                  <h4>{product.title || product.name}</h4>
                   <div className="price-row">
                     <span className="sale-price">₹{product.price}</span>
-                    {product.originalPrice && (
-                      <span className="original-price">₹{product.originalPrice}</span>
-                    )}
                   </div>
-                )}
-                <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                  {!product.isVideo ? (
-                    <>
-                      <button
-                        onClick={() => handleMoveToCart(product)}
-                        style={{
-                          flex: 1,
-                          padding: "10px",
-                          background: "var(--black)",
-                          color: "var(--white)",
-                          fontFamily: "var(--font-heading)",
-                          fontSize: "11px",
-                          fontWeight: 700,
-                          letterSpacing: "1px",
-                          textTransform: "uppercase",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "6px",
-                        }}
-                      >
-                        <FiShoppingBag size={14} /> MOVE TO CART
-                      </button>
-                      <button
-                        onClick={() => removeFromWishlist(product._id || product.id)}
-                        style={{
-                          padding: "10px 14px",
-                          border: "1px solid var(--grey-300)",
-                          background: "var(--white)",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <FiTrash2 size={16} />
-                      </button>
-                    </>
-                  ) : (
+
+                  <div className="wishlist-card__actions">
                     <button
-                      onClick={() => removeFromWishlist(product._id || product.id)}
-                      style={{
-                        flex: 1,
-                        padding: "10px",
-                        border: "1px solid var(--black)",
-                        background: "var(--white)",
-                        color: "var(--black)",
-                        fontFamily: "var(--font-heading)",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        letterSpacing: "1px",
-                        textTransform: "uppercase",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "6px",
-                      }}
+                      className="wishlist-card__move-btn"
+                      onClick={() => handleMoveToCart(product)}
+                      aria-label="Move to cart"
                     >
-                      <FiTrash2 size={16} /> REMOVE
+                      <FiShoppingBag size={14} /> MOVE TO CART
                     </button>
-                  )}
+                    <button
+                      className="wishlist-card__remove-btn"
+                      onClick={() => removeFromWishlist(pid)}
+                      aria-label="Remove from wishlist"
+                    >
+                      <FiTrash2 size={16} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

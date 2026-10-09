@@ -1,35 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../services/productService';
 
 export default function useProducts(params = {}) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = useQuery({
+    // Using stringify here intentionally to stabilize the queryKey across identical object references
+    // Alternatively, React Query hashes objects automatically, so we can just pass params!
+    queryKey: ['products', params],
+    queryFn: () => getProducts(params),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const body = await getProducts(params);
+  const products = Array.isArray(data?.data) ? data.data : (Array.isArray(data) ? data : []);
 
-        if (isMounted) {
-          const list = Array.isArray(body?.data) ? body.data : [];
-          setProducts(list);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError(err);
-          setProducts([]);
-        }
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    fetchProducts();
-    return () => { isMounted = false; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(params)]);
-
-  return { products, loading, error };
+  return { products, loading: isLoading, error };
 }

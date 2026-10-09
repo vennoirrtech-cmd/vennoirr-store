@@ -1,121 +1,412 @@
-.search-overlay {
+/* =====================================================================
+   SEARCH OVERLAY — Premium redesign
+   All layout uses the site-wide design tokens from index.css :root
+   ===================================================================== */
+
+/* ── 1. Full-screen backdrop ─────────────────────────────────────────── */
+.srch-overlay {
   position: fixed;
   inset: 0;
-  background: #fff;
-  z-index: 9999;
-  padding: 30px 60px;
+  background: var(--surface);          /* pure white — no warmth fighting the type */
+  z-index: var(--z-modal);             /* 900 — above nav, below toasts */
   overflow-y: auto;
-  animation: fadeIn 0.25s ease;
+  overscroll-behavior: contain;
+  will-change: opacity;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* ── 2. Content container — one left edge for everything ─────────────── */
+.srch-inner {
+  max-width: var(--container);         /* 1360px */
+  margin: 0 auto;
+  padding: 80px var(--gutter-desktop) 120px;  /* top room for close btn */
+}
+
+@media (max-width: 768px) {
+  .srch-inner {
+    padding: 72px var(--gutter-mobile) 80px;
   }
 }
 
-/* ❌ React Icon Close Button */
-.overlay-close {
+/* ── 3. Close button ─────────────────────────────────────────────────── */
+.srch-close {
   position: fixed;
-  top: 22px;
-  right: 30px;
-  background: none;
-  border: none;
-  font-size: 32px;
-  cursor: pointer;
-  z-index: 10000;
-  color: #000;
-  min-width: 44px;
-  min-height: 44px;
+  top: 20px;
+  right: 24px;
+  z-index: calc(var(--z-modal) + 1);
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.overlay-close:hover {
-  opacity: 0.7;
-}
-
-/* Search Input */
-.search-top {
-  margin-top: 40px;
-}
-
-.search-top input {
-  width: 100%;
-  font-size: 22px;
+  border-radius: 50%;
+  background: transparent;
   border: none;
-  border-bottom: 2px solid #000;
-  outline: none;
-  padding: 10px 0;
-}
-
-/* Sections */
-.search-section {
-  margin-top: 40px;
-}
-
-.search-section h4 {
-  margin-bottom: 16px;
-  font-size: 14px;
-  letter-spacing: 1px;
-  color: #555;
-}
-
-/* Chips */
-.search-chips span {
-  display: inline-block;
-  border: 1px solid #ccc;
-  padding: 8px 14px;
-  border-radius: 20px;
-  margin-right: 12px;
-  margin-bottom: 12px;
+  color: var(--ink);
+  font-size: 26px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 44px;
+  transition: background var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+.srch-close:hover {
+  background: var(--surface-muted);
+}
+
+.srch-close:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+@media (max-width: 768px) {
+  .srch-close {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+/* ── 4. SEARCH eyebrow label ─────────────────────────────────────────── */
+.srch-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);        /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);           /* 12px */
+}
+
+/* ── 5. Input field ─────────────────────────────────────────────────── */
+.srch-field-wrap {
+  position: relative;
+  margin-bottom: var(--s-8);           /* 64px to Popular Searches */
+}
+
+.srch-icon-left {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 26px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.srch-input {
+  display: block;
+  width: 100%;
+  font-family: var(--font-display);    /* Fraunces — matches site's editorial feel */
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 300;
+  color: var(--ink);
+  background: transparent;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: var(--s-3) 48px var(--s-3) 48px; /* padding for left/right icons */
+  caret-color: var(--ink);
+  line-height: 1.2;
+}
+
+.srch-clear {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
+
+.srch-clear:hover {
+  color: var(--ink);
+  background-color: var(--surface-muted);
+}
+
+/* Placeholder contrast fix — clearly legible, never decorative-faint */
+.srch-input::placeholder {
+  color: var(--text-muted);            /* #8A8A8A — readable at rest */
+  opacity: 1;
+  transition: color var(--dur-normal) var(--ease-out);
+}
+
+/* Placeholder fades further when user has typed (natural feel) */
+.srch-input:not(:placeholder-shown)::placeholder {
+  color: transparent;
+}
+
+/* ── Animated underline ────────────────────────────────────────────── */
+.srch-underline {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: var(--border);           /* hairline at rest */
+  position: relative;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.srch-underline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+/* When input is focused: full-width ink underline sweeps in from left */
+.srch-field-wrap:focus-within .srch-underline::after {
+  transform: scaleX(1);
+}
+
+/* ── 6. Section wrapper ───────────────────────────────────────────── */
+.srch-section {
+  margin-bottom: var(--s-8);          /* 64px vertical rhythm between sections */
+}
+
+/* ── 7. Section labels ───────────────────────────────────────────── */
+.srch-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);       /* 11px — same as category chips elsewhere */
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--s-5);          /* 24px */
+}
+
+/* ── 8. Popular search chips ─────────────────────────────────────── */
+.srch-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-3);         /* 8px row / 12px col */
+}
+
+.srch-chips--sm {
+  margin-top: var(--s-4);             /* 16px after empty-state text */
+}
+
+.srch-chip {
   display: inline-flex;
   align-items: center;
+  height: 36px;
+  padding: 0 var(--s-4);             /* 16px h-padding matches site filter chips */
+  font-family: var(--font-body);
+  font-size: var(--fs-small);        /* 13px */
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
 }
 
-.search-chips span:hover {
-  background: #000;
-  color: #fff;
+.srch-chip:hover {
+  background: var(--surface-muted);   /* --surface-muted on hover per spec */
+  border-color: var(--text-secondary);
 }
 
-/* Grid */
-.search-grid {
-  margin-top: 20px;
+.srch-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* ── 9. Product results grid ─────────────── */
+.srch-grid-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-5);
+  margin-bottom: var(--s-5);
 }
 
-.search-card {
+@media (max-width: 1024px) {
+  .srch-grid-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .srch-grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-3);
+  }
+}
+
+.srch-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: var(--s-5);        /* 24px */
+  padding-bottom: var(--s-4); /* 16px space for scrollbar */
+  margin-right: calc(var(--gutter-desktop) * -1); /* Edge bleed */
+  padding-right: var(--gutter-desktop);           /* End padding */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom premium scrollbar */
+.srch-grid::-webkit-scrollbar {
+  height: 4px;
+}
+.srch-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.srch-grid::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--r-pill);
+}
+
+.srch-grid > div {
+  flex: 0 0 calc(25% - (var(--s-5) * 0.75));
+  scroll-snap-align: start;
+}
+
+@media (max-width: 1024px) {
+  .srch-grid > div {
+    flex: 0 0 calc(33.333% - (var(--s-5) * 0.66));
+  }
+}
+
+@media (max-width: 640px) {
+  .srch-grid {
+    gap: var(--s-3);
+    margin-right: calc(var(--gutter-mobile) * -1);
+    padding-right: var(--gutter-mobile);
+  }
+  .srch-grid > div {
+    /* Show roughly 2.2 cards on mobile so user knows they can swipe */
+    flex: 0 0 calc(45% - var(--s-3));
+  }
+}
+
+/* ── 10. Individual result card ───────────────────────────────────── */
+.srch-card {
+  display: block;
   text-decoration: none;
-  color: black;
-  transition: transform 0.2s ease;
+  color: var(--ink);
+  border-radius: var(--r-card);
+  outline: none;
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 
-.search-card:hover {
+.srch-card:hover {
+  transform: translateY(-3px);
+}
+
+.srch-card--focused,
+.srch-card:focus-visible {
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--r-card);
+}
+
+/* Image container — square crop */
+.srch-card-img {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--r-card);
+  background: var(--surface-muted);   /* visible while image loads */
+}
+
+.srch-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.srch-card:hover .srch-card-img img {
   transform: scale(1.04);
 }
 
-.search-card img {
+.srch-card-img-placeholder {
   width: 100%;
-  border-radius: 12px;
+  height: 100%;
+  background: var(--surface-muted);
 }
 
-.search-card .name {
-  margin-top: 10px;
+/* Card text */
+.srch-card-name {
+  font-size: var(--fs-small);        /* 13px */
   font-weight: 500;
+  color: var(--ink);
+  margin-top: var(--s-2);            /* 8px */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.search-card .price {
-  color: #e60023;
-  font-weight: bold;
+.srch-card-price {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: var(--s-1);           /* 4px */
+}
+
+/* ── 11. Skeleton shimmer cards ─────────────────────────────────── */
+.srch-skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.srch-skeleton-img {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: var(--r-card);
+  background: var(--surface-muted);
+}
+
+.srch-skeleton-line {
+  height: 12px;
+  border-radius: var(--r-badge);
+  background: var(--surface-muted);
+}
+
+.skeleton-pulse {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(90deg, var(--surface-muted) 0%, #E8E6E1 50%, var(--surface-muted) 100%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ── 12. Empty state ────────────────────────────────────────────── */
+.srch-empty {
+  padding: var(--s-7) 0 var(--s-6);  /* 40px top, 32px bottom */
+}
+
+.srch-empty-msg {
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+  margin-bottom: var(--s-4);
+}
+
+.srch-empty-msg strong {
+  color: var(--ink);
 }

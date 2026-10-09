@@ -4,6 +4,7 @@ import { getMyOrders } from "../services/orderService";
 import { AuthContext } from "../context/AuthContext";
 import api from "../services/authService";
 import { toast } from "react-hot-toast";
+import { LuPackage, LuUser, LuHeart, LuLogOut } from "react-icons/lu";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
@@ -89,14 +90,18 @@ export default function ProfilePage() {
       .slice(0, 2) || "VR";
 
   const navItems = [
-    { id: "orders", label: "Orders", icon: "📦" },
-    { id: "profile", label: "Edit Profile", icon: "✏️" },
-    { id: "wishlist", label: "Wishlist", icon: "♡", to: "/wishlist" },
+    { id: "orders", label: "Orders", icon: <LuPackage size={16} strokeWidth={1.5} /> },
+    { id: "profile", label: "Edit Profile", icon: <LuUser size={16} strokeWidth={1.5} /> },
+    { id: "wishlist", label: "Wishlist", icon: <LuHeart size={16} strokeWidth={1.5} />, to: "/wishlist" },
   ];
 
+  const handleLogout = () => {
+    loginAuth("", null);
+  };
+
   return (
-    <main style={{ paddingTop: "calc(var(--ticker-height) + var(--navbar-height))", minHeight: "80vh" }}>
-      <div className="container" style={{ paddingTop: 48, paddingBottom: 60, maxWidth: 960, margin: "0 auto" }}>
+    <main style={{ paddingTop: "calc(var(--ticker-height) + var(--navbar-height) + 40px)", minHeight: "80vh" }}>
+      <div className="container" style={{ paddingBottom: 80, maxWidth: 1000, margin: "0 auto" }}>
         {/* Header */}
         <div className="profile-header">
           <p className="profile-eyebrow">Welcome back</p>
@@ -136,6 +141,13 @@ export default function ProfilePage() {
                   </button>
                 )
               )}
+              <button
+                className="profile-nav-item profile-logout-btn"
+                onClick={handleLogout}
+              >
+                <span><LuLogOut size={16} strokeWidth={1.5} /></span>
+                <span>LOGOUT</span>
+              </button>
             </nav>
           </aside>
 
@@ -177,7 +189,61 @@ export default function ProfilePage() {
                           </p>
                         </div>
                       </div>
-                      <button className="order-detail-btn">View Order Details →</button>
+
+                      {/* ORDER ITEMS RENDER */}
+                      <div className="order-items-grid">
+                        {order.items?.map((item, idx) => (
+                          <div key={idx} className="order-item-mini">
+                            <div className="order-item-img">
+                              {item.image ? (
+                                <img src={item.image} alt={item.name} />
+                              ) : (
+                                <div className="img-placeholder"></div>
+                              )}
+                            </div>
+                            <div className="order-item-info">
+                              <p className="order-item-name">{item.name}</p>
+                              <p className="order-item-meta">Size: {item.size} • Color: {item.color}</p>
+                              <p className="order-item-qty">Qty: {item.quantity}</p>
+                            </div>
+                            <div className="order-item-price">
+                              ₹{(item.price * item.quantity).toLocaleString("en-IN")}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* ORDER TRACKING & SHIPPING DATA */}
+                      {(order.orderStatus !== 'Pending' && order.orderStatus !== 'Cancelled' && order.shippingData?.awbNumber) && (
+                        <div className="order-tracking-strip" style={{ marginTop: '16px', padding: '12px', background: 'var(--surface)', borderRadius: '4px', fontSize: '13px', border: '1px solid var(--border)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                              <strong style={{ display: 'block', color: 'var(--primary)' }}>Courier: {order.shippingData.courierPartner || 'Logistics'}</strong>
+                              <span style={{ color: 'var(--text-muted)' }}>AWB: <span style={{ fontFamily: 'monospace' }}>{order.shippingData.awbNumber}</span></span>
+                            </div>
+                            {order.shippingData.trackingUrl && (
+                              <a 
+                                href={order.shippingData.trackingUrl} 
+                                target="_blank" 
+                                rel="noreferrer" 
+                                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--brand)', textDecoration: 'none', fontWeight: 600 }}
+                              >
+                                🗺️ Track live
+                              </a>
+                            )}
+                          </div>
+                          {order.estimatedDeliveryTime && (
+                            <p style={{ marginTop: '8px', color: 'var(--text-muted)' }}>Estimated Delivery: <strong>{order.estimatedDeliveryTime}</strong></p>
+                          )}
+                        </div>
+                      )}
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-light)' }}>
+                        <button className="order-detail-btn" style={{ padding: '6px 12px', border: '1px solid var(--border)', background: 'transparent' }}>View Details</button>
+                        {(order.orderStatus === 'Delivered' && order.refundStatus === 'Not Applicable') && (
+                          <button className="order-detail-btn" style={{ padding: '6px 12px', border: '1px solid var(--ink)', background: 'var(--ink)', color: 'var(--surface)' }}>Return Item</button>
+                        )}
+                      </div>
                     </div>
                   ))
                 )}
